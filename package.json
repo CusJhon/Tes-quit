@@ -1,13 +1,13 @@
 {
   "name": "quickfake",
-  "version": "2.0.0",
-  "description": "QuickFake - Mockup Generator Professional",
+  "version": "3.0.0",
+  "description": "QuickFake - Mockup Generator with App Store UI",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js"
   },
-  "keywords": ["mockup", "generator", "fake", "image", "editor"],
+  "keywords": ["mockup", "generator", "fake", "appstore", "ui"],
   "author": "JHON PRODUCTION",
   "license": "MIT",
   "dependencies": {
@@ -15,10 +15,10 @@
     "cors": "^2.8.5",
     "express-rate-limit": "^6.7.0",
     "multer": "^1.4.5-lts.1",
-    "axios": "^1.4.0",
+    "axios": "^4.0.0",
     "form-data": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.0"
   }
 }

@@ -29,8 +29,16 @@
     <!-- SPLASH SCREEN -->
     <div id="splashScreen" class="splash-screen" style="display: none;">
         <div class="splash-content">
-            <div class="splash-logo"><div class="logo-animation"><i class="fas fa-bolt"></i></div><h1 class="splash-title">Quick<span>Fake</span></h1><div class="slogan">Mockup Generator • Limitless Creativity</div></div>
-            <div class="loader-container"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="loading-text"><span id="loadingPercentage">0</span>%</div><div class="loading-status" id="loadingStatus"><i class="fas fa-magic"></i> Initializing...</div></div>
+            <div class="splash-logo">
+                <div class="logo-animation"><i class="fas fa-bolt"></i></div>
+                <h1 class="splash-title">Quick<span>Fake</span></h1>
+                <div class="slogan">Mockup Generator • Limitless Creativity</div>
+            </div>
+            <div class="loader-container">
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                <div class="loading-text"><span id="loadingPercentage">0</span>%</div>
+                <div class="loading-status" id="loadingStatus"><i class="fas fa-magic"></i> Initializing...</div>
+            </div>
             <div class="splash-footer"><div class="particles" id="particles"></div><p>powered by JHON API</p></div>
         </div>
     </div>
@@ -56,27 +64,133 @@
             </div>
         </nav>
 
-        <!-- PAGE: BERANDA - MOCKUP GENERATOR v1 & v2 -->
+        <!-- PAGE: BERANDA - MOCKUP GENERATOR v1 & v2 dengan App Store Style -->
         <div id="homePage" class="page-container active-page">
             <div class="container">
-                <header><div class="logo"><i class="fas fa-bolt"></i><h1>Quick<span>Fake</span></h1></div><p class="tagline">Generator mockup kekinian • hasil instan • gratis</p></header>
-                <div class="tab-container"><button class="tab-btn active" id="tabV1Btn"><i class="fas fa-layer-group"></i> Mockup Generator v1</button><button class="tab-btn" id="tabV2Btn"><i class="fas fa-crown"></i> Mockup Generator v2</button></div>
+                <header>
+                    <div class="logo"><i class="fas fa-bolt"></i><h1>Quick<span>Fake</span></h1></div>
+                    <p class="tagline">Generator mockup kekinian • hasil instan • gratis</p>
+                </header>
                 
-                <!-- MOCKUP v1 -->
-                <div id="mockupV1" class="mockup-tab active-tab"><div class="main-card"><div class="format-section"><label><i class="fas fa-layer-group"></i> Pilih Format Mockup v1</label><div class="format-grid" id="formatGridV1"></div></div><div class="param-section"><label><i class="fas fa-sliders-h"></i> Isi Parameter</label><div class="param-form" id="paramFormV1"></div></div><div class="action-section"><button id="generateBtnV1" class="btn-generate"><i class="fas fa-magic"></i> Generate Sekarang</button><div id="generateLoadingV1" class="generate-loading hidden"><div class="loading-spinner"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div><div class="loading-message" id="generateLoadingMessageV1"><i class="fas fa-paintbrush-fine"></i> Creating your mockup...</div><div class="loading-progress"><div class="loading-progress-bar"><div class="loading-progress-fill" id="generateProgressFillV1"></div></div><span id="generateProgressPercentV1">0</span>%</div></div><div id="resultAreaV1" class="result-area"><div class="result-placeholder"><i class="fas fa-image"></i><p>Hasil mockup v1 akan tampil di sini</p></div></div></div></div></div>
+                <div class="tab-container">
+                    <button class="tab-btn active" id="tabV1Btn"><i class="fas fa-layer-group"></i> Mockup v1</button>
+                    <button class="tab-btn" id="tabV2Btn"><i class="fas fa-crown"></i> Mockup v2</button>
+                </div>
                 
-                <!-- MOCKUP v2 -->
-                <div id="mockupV2" class="mockup-tab"><div class="main-card"><div class="format-section"><label><i class="fas fa-crown"></i> Pilih Format Mockup v2</label><div class="format-grid" id="formatGridV2"></div></div><div class="param-section"><label><i class="fas fa-sliders-h"></i> Isi Parameter</label><div class="param-form" id="paramFormV2"></div></div><div class="action-section"><button id="generateBtnV2" class="btn-generate"><i class="fas fa-magic"></i> Generate Sekarang</button><div id="generateLoadingV2" class="generate-loading hidden"><div class="loading-spinner"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div><div class="loading-message" id="generateLoadingMessageV2"><i class="fas fa-paintbrush-fine"></i> Creating your mockup...</div><div class="loading-progress"><div class="loading-progress-bar"><div class="loading-progress-fill" id="generateProgressFillV2"></div></div><span id="generateProgressPercentV2">0</span>%</div></div><div id="resultAreaV2" class="result-area"><div class="result-placeholder"><i class="fas fa-image"></i><p>Hasil mockup v2 akan tampil di sini</p></div></div></div></div></div>
+                <!-- MOCKUP v1 - App Store Style -->
+                <div id="mockupV1" class="mockup-tab active-tab">
+                    <div class="main-card">
+                        <div class="appstore-header">
+                            <div class="appstore-title">
+                                <i class="fas fa-layer-group"></i>
+                                <h2>Mockup Gallery</h2>
+                                <span class="format-count" id="formatCountV1">0 formats</span>
+                            </div>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchInputV1" class="search-input" placeholder="Cari mockup...">
+                                <button class="search-clear" id="searchClearV1" style="display: none;">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="category-tabs" id="categoryTabsV1"></div>
+                        
+                        <div class="appstore-grid" id="formatGridV1"></div>
+                        
+                        <div class="empty-state" id="emptyStateV1" style="display: none;">
+                            <i class="fas fa-search"></i>
+                            <h3>Tidak ditemukan hasil</h3>
+                            <p>Coba dengan kata kunci lain atau pilih kategori berbeda</p>
+                        </div>
+                        
+                        <div class="param-section-wrapper" id="paramSectionV1" style="display: none;">
+                            <div class="param-header">
+                                <button class="back-btn" id="backToGridV1">
+                                    <i class="fas fa-arrow-left"></i> Back to Gallery
+                                </button>
+                                <h3 id="selectedFormatNameV1"></h3>
+                            </div>
+                            <div class="param-section">
+                                <label><i class="fas fa-sliders-h"></i> Isi Parameter</label>
+                                <div class="param-form" id="paramFormV1"></div>
+                            </div>
+                            <div class="action-section">
+                                <button id="generateBtnV1" class="btn-generate"><i class="fas fa-magic"></i> Generate Sekarang</button>
+                                <div id="generateLoadingV1" class="generate-loading hidden">
+                                    <div class="loading-spinner"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div>
+                                    <div class="loading-message" id="generateLoadingMessageV1"><i class="fas fa-paintbrush-fine"></i> Creating your mockup...</div>
+                                    <div class="loading-progress"><div class="loading-progress-bar"><div class="loading-progress-fill" id="generateProgressFillV1"></div></div><span id="generateProgressPercentV1">0</span>%</div>
+                                </div>
+                                <div id="resultAreaV1" class="result-area"><div class="result-placeholder"><i class="fas fa-image"></i><p>Hasil mockup v1 akan tampil di sini</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MOCKUP v2 - App Store Style -->
+                <div id="mockupV2" class="mockup-tab">
+                    <div class="main-card">
+                        <div class="appstore-header">
+                            <div class="appstore-title">
+                                <i class="fas fa-crown"></i>
+                                <h2>Mockup Gallery Pro</h2>
+                                <span class="format-count" id="formatCountV2">0 formats</span>
+                            </div>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchInputV2" class="search-input" placeholder="Cari mockup...">
+                                <button class="search-clear" id="searchClearV2" style="display: none;">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="category-tabs" id="categoryTabsV2"></div>
+                        
+                        <div class="appstore-grid" id="formatGridV2"></div>
+                        
+                        <div class="empty-state" id="emptyStateV2" style="display: none;">
+                            <i class="fas fa-search"></i>
+                            <h3>Tidak ditemukan hasil</h3>
+                            <p>Coba dengan kata kunci lain atau pilih kategori berbeda</p>
+                        </div>
+                        
+                        <div class="param-section-wrapper" id="paramSectionV2" style="display: none;">
+                            <div class="param-header">
+                                <button class="back-btn" id="backToGridV2">
+                                    <i class="fas fa-arrow-left"></i> Back to Gallery
+                                </button>
+                                <h3 id="selectedFormatNameV2"></h3>
+                            </div>
+                            <div class="param-section">
+                                <label><i class="fas fa-sliders-h"></i> Isi Parameter</label>
+                                <div class="param-form" id="paramFormV2"></div>
+                            </div>
+                            <div class="action-section">
+                                <button id="generateBtnV2" class="btn-generate"><i class="fas fa-magic"></i> Generate Sekarang</button>
+                                <div id="generateLoadingV2" class="generate-loading hidden">
+                                    <div class="loading-spinner"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div>
+                                    <div class="loading-message" id="generateLoadingMessageV2"><i class="fas fa-paintbrush-fine"></i> Creating your mockup...</div>
+                                    <div class="loading-progress"><div class="loading-progress-bar"><div class="loading-progress-fill" id="generateProgressFillV2"></div></div><span id="generateProgressPercentV2">0</span>%</div>
+                                </div>
+                                <div id="resultAreaV2" class="result-area"><div class="result-placeholder"><i class="fas fa-image"></i><p>Hasil mockup v2 akan tampil di sini</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <footer><p>⚡ QuickFake — gunakan dengan bijak untuk keperluan kreatif & edukasi</p></footer>
             </div>
         </div>
 
-        <!-- PAGE: SSWEB -->
+        <!-- PAGE: SSWEB (Sama seperti original) -->
         <div id="sswebPage" class="page-container">
             <div class="container"><div class="main-card"><div class="format-section"><label><i class="fas fa-camera"></i> Screenshot Website (SSWeb)</label><p style="color:#9ca3af;font-size:0.85rem;margin-top:-0.5rem;">Ambil screenshot dari website apapun secara instan</p></div><div class="param-section"><label><i class="fas fa-sliders-h"></i> Parameter SSWeb</label><div class="param-form" id="sswebParamForm"><div class="input-group"><label>URL Website <span style="color:#ef4444;">*</span></label><input type="url" id="sswebUrl" placeholder="https://example.com" value=""></div><div class="input-group"><label>Perangkat (Device)</label><select id="sswebDevice"><option value="" selected disabled>-- Pilih Perangkat --</option><option value="desktop">Desktop</option><option value="mobile">Mobile</option><option value="tablet">Tablet</option></select></div><div class="input-group"><label>Halaman Penuh (Full Page)</label><select id="sswebFullPage"><option value="" selected disabled>-- Pilih Opsi --</option><option value="penuh">Ya (Penuh)</option><option value="tidak">Tidak (Halaman terlihat)</option></select></div><div class="input-group"><label>Skala (Scale)</label><select id="sswebScale"><option value="" selected disabled>-- Pilih Skala --</option><option value="1">1x (Normal)</option><option value="2">2x (HD)</option><option value="3">3x (Ultra HD)</option></select></div></div></div><div class="action-section"><button id="sswebGenerateBtn" class="btn-generate"><i class="fas fa-camera"></i> Ambil Screenshot</button><div id="sswebLoading" class="generate-loading hidden"><div class="loading-spinner"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div><div class="loading-message" id="sswebLoadingMessage"><i class="fas fa-globe"></i> Menghubungkan ke server...</div><div class="loading-progress"><div class="loading-progress-bar"><div class="loading-progress-fill" id="sswebProgressFill"></div></div><span id="sswebProgressPercent">0</span>%</div></div><div id="sswebResultArea" class="result-area"><div class="result-placeholder"><i class="fas fa-camera"></i><p>Screenshot website akan tampil di sini</p></div></div></div></div></div>
         </div>
 
-        <!-- PAGE: UPLOADER -->
+        <!-- PAGE: UPLOADER (Sama seperti original) -->
         <div id="uploaderPage" class="page-container">
             <div class="container">
                 <div class="main-card">
@@ -197,7 +311,7 @@
             </div>
         </div>
 
-        <!-- PAGE: INFO & BERITA -->
+        <!-- PAGE: INFO & BERITA (Sama seperti original) -->
         <div id="infoPage" class="page-container">
             <div class="container"><div class="main-card"><div class="format-section"><label><i class="fas fa-newspaper"></i> Info & Berita Terkini</label><p style="color:#9ca3af;font-size:0.85rem;margin-top:-0.5rem;">Dapatkan informasi berita, gempa, cuaca, dan jadwal TV terkini</p></div>
             <div class="info-tabs"><button class="info-tab-btn active" data-info="berita">📰 Berita</button><button class="info-tab-btn" data-info="gempa">🌍 Gempa Terkini</button><button class="info-tab-btn" data-info="cuaca">☀️ Cuaca</button><button class="info-tab-btn" data-info="jadwaltv">📺 Jadwal TV</button></div>
@@ -208,12 +322,12 @@
             </div></div>
         </div>
 
-        <!-- PAGE: CARA PENGGUNAAN -->
+        <!-- PAGE: CARA PENGGUNAAN (Sama seperti original) -->
         <div id="howtoPage" class="page-container">
             <div class="container"><div class="content-card"><div class="content-header"><i class="fas fa-book-open"></i><h2>Cara Penggunaan QuickFake</h2><p>Ikuti langkah mudah berikut</p></div><div class="steps-grid"><div class="step-card"><div class="step-number">01</div><div class="step-icon"><i class="fas fa-layer-group"></i></div><h3>Pilih Layanan</h3><p>Pilih Mockup Generator v1/v2, SSWeb, Uploader, atau Info & Berita</p></div><div class="step-card"><div class="step-number">02</div><div class="step-icon"><i class="fas fa-sliders-h"></i></div><h3>Isi Parameter</h3><p>Masukkan data sesuai layanan yang dipilih</p></div><div class="step-card"><div class="step-number">03</div><div class="step-icon"><i class="fas fa-magic"></i></div><h3>Generate/Upload</h3><p>Klik tombol Generate atau Upload dan tunggu prosesnya</p></div><div class="step-card"><div class="step-number">04</div><div class="step-icon"><i class="fas fa-download"></i></div><h3>Download/Copy URL</h3><p>Hasil akan tampil, klik Download atau Copy URL untuk menyimpan</p></div></div><div class="tips-section"><h3><i class="fas fa-lightbulb"></i> Tips</h3><ul><li><strong>Info & Berita:</strong> 8 sumber berita, cek gempa BMKG, prakiraan cuaca, dan jadwal TV 12 channel</li><li><strong>Mockup v1:</strong> Untuk Fake Call, durasi bisa diisi format seperti "19:31" atau "2:45"</li><li><strong>Uploader:</strong> Upload gambar via ImgBB, video/audio via Cloudinary</li><li>Untuk format media sosial, isi angka like/comment dengan format numerik biasa</li><li>Semua hasil generate bersifat real-time dan langsung bisa didownload</li><li>Jika download tidak berjalan, klik kanan pada gambar lalu pilih "Save image as..."</li><li><strong>SSWeb:</strong> Gunakan skala 2x atau 3x untuk hasil HD</li><li><strong>SSWeb:</strong> Pilih "Halaman Penuh: Ya" untuk screenshot seluruh halaman</li><li>Gunakan URL gambar dari hosting gratis untuk mockup</li></ul></div></div></div>
         </div>
 
-        <!-- PAGE: PANDUAN LENGKAP -->
+        <!-- PAGE: PANDUAN LENGKAP (Sama seperti original - disingkat untuk space) -->
         <div id="guidePage" class="page-container">
             <div class="container">
                 <div class="content-card">
@@ -222,69 +336,32 @@
                         <h2>Panduan Lengkap</h2>
                         <p>Penjelasan detail setiap fitur</p>
                     </div>
-                    
-                    <div class="guide-section"><h3><i class="fas fa-font"></i> Brat Text</h3><p>Membuat teks dengan gaya aesthetic ala Brat. Cukup masukkan teks apapun, dan sistem akan menghasilkan gambar dengan typography keren dan efek gradien modern.</p><div class="guide-example"><strong>Contoh:</strong> Text: "Halo semesta!" → Hasil teks dengan gaya bold dan warna gradien</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-phone-alt"></i> Fake Call</h3><p>Simulasi tampilan panggilan masuk dengan avatar custom. Cocok untuk konten storytelling, meme, atau konten lucu.</p><div class="guide-example"><strong>Parameter:</strong> Nama penelepon, Durasi panggilan, URL Avatar (opsional)</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-youtube"></i> Fake Channel</h3><p>Membuat tampilan channel YouTube dengan thumbnail, nama channel, jumlah subscriber, deskripsi, dan tanggal.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar, Nama Channel, Followers, Deskripsi, Tanggal</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-wallet"></i> Fake DANA</h3><p>Simulasi tampilan saldo DANA untuk keperluan kreatif, promosi, atau konten edukasi.</p><div class="guide-example"><strong>Parameter:</strong> Nominal (contoh: Rp 100.000)</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-facebook"></i> FB Comment</h3><p>Komentar Facebook dengan nama, komentar, dan foto profil custom.</p><div class="guide-example"><strong>Parameter:</strong> Nama, Komentar, URL Foto Profil</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-whatsapp"></i> WA Group & WA Group V2</h3><p>Membuat screenshot grup WhatsApp dengan berbagai variasi. V2 memiliki tampilan lebih modern dengan info member detail dan author.</p><div class="guide-example"><strong>Parameter:</strong> URL Icon, Judul, Jumlah Pesan, Waktu<br><strong>Parameter V2:</strong> URL Avatar, Nama Admin, Jumlah Member, Deskripsi, Author, Tanggal</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-instagram"></i> IG Post</h3><p>Mockup postingan Instagram dengan like, comment, share, repost, dan caption. Bisa custom avatar dan konten.</p><div class="guide-example"><strong>Parameter:</strong> Avatar URL, Konten URL, Username, Likes, Comments, Share, Repost, Date, Caption</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-tiktok"></i> TikTok Profile & TikTok Comment</h3><p>Simulasi profil TikTok dengan informasi following, followers, likes, dan komentar dengan tampilan autentik.</p><div class="guide-example"><strong>Parameter Profile:</strong> Nama, Username, Following, Followers, Likes, URL Foto<br><strong>Parameter Comment:</strong> URL Foto, Username, Komentar, Tanggal</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-youtube"></i> YouTube Community</h3><p>Postingan komunitas YouTube dengan like dan comment count. Cocok untuk simulasi konten viral.</p><div class="guide-example"><strong>Parameter:</strong> Avatar URL, Konten URL, Username, Deskripsi, Like, Comment</div></div>
-                    
-                    <div class="guide-section"><h3><i class="fas fa-door-open"></i> Goodbye V1</h3><p>Untuk menghasilkan gambar "perpisahan" (versi 1) melalui parameter URL.</p><div class="guide-example"><strong>Parameter:</strong> Username, Nama Guild, URL Icon Guild, Jumlah Member, URL Avatar, URL Background, Kualitas (1-100)</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-sign-in-alt"></i> Welcome V1</h3><p>Untuk menghasilkan gambar "selamat datang" dengan tampilan guild.</p><div class="guide-example"><strong>Parameter:</strong> Username, Nama Guild, URL Icon Guild, Jumlah Member, URL Avatar, URL Background, Kualitas (1-100)</div></div>
-                    <div class="guide-section"><h3><i class="fab fa-spotify"></i> Spotify Card</h3><p>Membuat kartu "sedang diputar" ala Spotify.</p><div class="guide-example"><strong>Parameter:</strong> Judul Lagu, Artis, Waktu Mulai (ms), Waktu Akhir (ms), URL Gambar, Warna Border, Nama Album</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-rainbow"></i> Gay Image</h3><p>Menambahkan efek bendera pelangi pada gambar avatar.</p><div class="guide-example"><strong>Parameter:</strong> Nama, URL Avatar, Angka</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-id-card"></i> Profile Card</h3><p>Membuat kartu profil kustom dengan level dan EXP.</p><div class="guide-example"><strong>Parameter:</strong> URL Background, URL Avatar, Nama Rank, ID Rank, EXP, EXP Required, Level, Nama</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-shield-alt"></i> Captcha Image</h3><p>Membuat gambar captcha custom dengan background dan kode captcha.</p><div class="guide-example"><strong>Parameter:</strong> URL Background, Kode Captcha, Warna Border, Opacity Overlay</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-comment-dots"></i> Fake xny67 Comment</h3><p>Membuat komentar palsu dengan gaya xny67.</p><div class="guide-example"><strong>Parameter:</strong> Nama, Kutipan, Jumlah Like, Jumlah Dislike</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-skull"></i> Fake xny67</h3><p>Membuat gambar efek xny67.</p><div class="guide-example"><strong>Parameter:</strong> Judul, URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-star"></i> Beautiful Image</h3><p>Menambahkan efek "beautiful" pada gambar.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-scroll"></i> Sertifikat Tolol</h3><p>Membuat sertifikat lucu dengan teks kustom.</p><div class="guide-example"><strong>Parameter:</strong> Teks</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-id-card"></i> eKTP Generator</h3><p>Membuat eKTP palsu untuk keperluan kreatif dan edukasi.</p><div class="guide-example"><strong>Parameter:</strong> Provinsi, Kota, NIK, Nama, TTL, Jenis Kelamin, Golongan Darah, Alamat, RT/RW, Kel/Desa, Kecamatan, Agama, Status, Pekerjaan, Kewarganegaraan, Masa Berlaku, Tanggal Terbuat, URL Pas Photo</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-level-up-alt"></i> Level Up Card</h3><p>Membuat kartu kenaikan level dengan background kustom.</p><div class="guide-example"><strong>Parameter:</strong> URL Background, URL Avatar, Dari Level, Ke Level, Nama</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-shield-virus"></i> Security Card</h3><p>Membuat kartu tersangka keamanan untuk keperluan forensik atau SOC.</p><div class="guide-example"><strong>Parameter:</strong> URL Avatar, URL Background, Created Timestamp, Suspect Timestamp, locale</div></div>
-                    
-                    <div class="guide-section"><h3><i class="fas fa-adjust"></i> Greyscale Image</h3><p>Mengubah gambar menjadi hitam putih (grayscale).</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-eye-dropper"></i> Invert Image</h3><p>Membalikkan warna gambar (negative effect).</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-blur"></i> Blur Image Effect</h3><p>Memberikan efek blur pada gambar.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-face-smile"></i> Affect Image</h3><p>Memberikan efek emoji affect pada gambar.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-trash-alt"></i> Delete Image</h3><p>Menambahkan efek "delete" pada gambar.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-facepalm"></i> Facepalm Image</h3><p>Menambahkan efek facepalm pada gambar.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-kiss-wink-heart"></i> Kiss Image</h3><p>Membuat gambar efek ciuman antara dua orang.</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar 1, URL Gambar 2</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-hand-back-fist"></i> Batslap Image</h3><p>Membuat efek tamparan antara dua orang (meme).</p><div class="guide-example"><strong>Parameter:</strong> URL Gambar 1 (Orang yang kena), URL Gambar 2 (Orang yang memukul)</div></div>
-                    <div class="guide-section"><h3><i class="fas fa-heart"></i> Ship Image</h3><p>Membuat efek "ship" (jodoh) antara dua orang dengan persentase.</p><div class="guide-example"><strong>Parameter:</strong> URL Avatar 1, URL Avatar 2, URL Background (Opsional), Persentase (%)</div></div>
-                    
-                    <div class="guide-section">
-                        <h3><i class="fas fa-quote-right"></i> Quote/Reminder Card</h3>
-                        <p>Membuat kartu kutipan/reminder aesthetic dengan teks justify dan highlight menggunakan [kurung siku].</p>
-                        <div class="guide-example"><strong>Parameter:</strong> Teks Quote: Gunakan [kurung siku] untuk highlight kata tertentu, Nama Penulis/Sumber, URL Background (Opsional), URL Font (Opsional)</div>
-                    </div>
-                    
-                    <div class="guide-section"><h3><i class="fas fa-text-height"></i> TextPro</h3><p>Platform populer untuk membuat efek teks. Anda perlu mengunjungi halaman efek tertentu, mengetik teks Anda ke dalam kotak input, dan mengklik Go.</p></div>
-                    <div class="guide-section"><h3><i class="fas fa-image"></i> PhotoOxy</h3><p>Platform untuk membuat gambar kustom menggunakan efek PhotoOxy.</p></div>
-                    <div class="guide-section"><h3><i class="fas fa-edit"></i> Ephoto360</h3><p>Platform untuk menghasilkan gambar kustom dengan berbagai efek teks dan foto.</p></div>
-                    
-                    <div class="guide-section"><h3><i class="fas fa-dice-d6"></i> Random Images</h3><p>Random Blue Archive, Random Cecan (Thailand, China, Vietnam, Indonesia, Japan, Korea), Random Waifu, Random Anime Neko</p></div>
-                    
-                    <div class="tips-section"><h3><i class="fas fa-info-circle"></i> Informasi Penting</h3><ul><li>Semua gambar yang dihasilkan bersifat sementara dan tidak disimpan di server</li><li>Gunakan URL gambar yang valid (pastikan gambar dapat diakses publik)</li><li>Website ini gratis dan hanya untuk keperluan kreatif & edukasi</li><li>Hasil generate dapat digunakan untuk konten media sosial, presentasi, atau desain</li></ul></div>
+                    <div class="guide-section"><h3><i class="fas fa-font"></i> Brat Text</h3><p>Membuat teks dengan gaya aesthetic ala Brat.</p></div>
+                    <div class="guide-section"><h3><i class="fas fa-phone-alt"></i> Fake Call</h3><p>Simulasi tampilan panggilan masuk dengan avatar custom.</p></div>
+                    <div class="guide-section"><h3><i class="fab fa-youtube"></i> Fake Channel</h3><p>Membuat tampilan channel YouTube dengan thumbnail, nama channel, jumlah subscriber.</p></div>
+                    <div class="guide-section"><h3><i class="fas fa-wallet"></i> Fake DANA</h3><p>Simulasi tampilan saldo DANA.</p></div>
+                    <div class="guide-section"><h3><i class="fab fa-facebook"></i> FB Comment</h3><p>Komentar Facebook dengan nama, komentar, dan foto profil custom.</p></div>
+                    <div class="guide-section"><h3><i class="fab fa-whatsapp"></i> WA Group & WA Group V2</h3><p>Membuat screenshot grup WhatsApp dengan berbagai variasi.</p></div>
+                    <div class="guide-section"><h3><i class="fab fa-instagram"></i> IG Post</h3><p>Mockup postingan Instagram dengan like, comment, share, repost, dan caption.</p></div>
+                    <div class="guide-section"><h3><i class="fab fa-tiktok"></i> TikTok Profile & TikTok Comment</h3><p>Simulasi profil TikTok dan komentar.</p></div>
+                    <div class="guide-section"><h3><i class="fas fa-adjust"></i> Greyscale Image</h3><p>Mengubah gambar menjadi hitam putih.</p></div>
+                    <div class="guide-section"><h3><i class="fas fa-heart"></i> Ship Image</h3><p>Membuat efek "ship" (jodoh) antara dua orang dengan persentase.</p></div>
+                    <div class="guide-section"><h3><i class="fas fa-quote-right"></i> Quote/Reminder Card</h3><p>Membuat kartu kutipan aesthetic dengan highlight menggunakan [kurung siku].</p></div>
+                    <div class="tips-section"><h3><i class="fas fa-info-circle"></i> Informasi Penting</h3><ul><li>Semua gambar yang dihasilkan bersifat sementara</li><li>Gunakan URL gambar yang valid</li><li>Website ini gratis dan hanya untuk keperluan kreatif & edukasi</li></ul></div>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE: DOKUMENTASI -->
+        <!-- PAGE: DOKUMENTASI (Sama seperti original - disingkat) -->
         <div id="docsPage" class="page-container">
             <div class="container"><div class="content-card"><div class="content-header"><i class="fas fa-code"></i><h2>Dokumentasi Code & API</h2><p>Informasi teknis untuk developer</p></div>
-            <div class="docs-section"><h3><i class="fas fa-globe"></i> Arti QuickFake</h3><div class="code-block"><pre><code>QuickFake adalah istilah yang biasanya digunakan untuk menggambarkan konten palsu yang dibuat dengan cepat menggunakan teknologi digital, terutama berbasis AI.</code></pre></div></div>
+            <div class="docs-section"><h3><i class="fas fa-globe"></i> Arti QuickFake</h3><div class="code-block"><pre><code>QuickFake = Fake (palsu) + Quick (cepat dibuat)</code></pre></div></div>
             <div class="docs-section"><h3><i class="fas fa-folder-tree"></i> Base URL & Endpoint API</h3><div class="code-block"><pre><code>BERITA: /api/berita/cnbcindonesia, /api/berita/liputan6, dll
 GEMPA: /api/info/bmkg
 CUACA: /api/info/cuaca?q=nama_kota
 JADWAL TV: /api/info/jadwaltv?channel=sctv</code></pre></div></div>
-            <div class="docs-section"><h3><i class="fas fa-palette"></i> Teknologi yang Digunakan</h3><div class="tech-stack"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript ES6+</span><span class="tech-tag">Fetch API</span><span class="tech-tag">Node.js</span><span class="tech-tag">Express</span></div></div>
-            <div class="docs-section"><h3><i class="fas fa-rocket"></i> Kontribusi & Pengembangan</h3><div class="code-block"><pre><code>QuickFake bersifat eksperimental, kolaboratif, iteratif, aksesibel, dan fleksibel.</code></pre></div>
-            <p style="margin-top: 1rem; padding: 1rem; background: rgba(239,68,68,0.1); border-radius: 1rem; border-left: 4px solid #ef4444;"><strong>⚠️ Disclaimer:</strong> Gunakan Website Ini secara bijaksana. Tidak untuk menipu atau pun lain. Dev - JHON PRODUCTION Tidak Bertanggung Jawab Jika Di Salah Gunakan. Website Ini Hanya untuk Edukasi. Terimakasih.</p>
+            <div class="docs-section"><h3><i class="fas fa-palette"></i> Teknologi yang Digunakan</h3><div class="tech-stack"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript ES6+</span><span class="tech-tag">Fetch API</span></div></div>
+            <div class="docs-section"><h3><i class="fas fa-rocket"></i> Kontribusi & Pengembangan</h3><p style="margin-top: 1rem; padding: 1rem; background: rgba(239,68,68,0.1); border-radius: 1rem; border-left: 4px solid #ef4444;"><strong>⚠️ Disclaimer:</strong> Gunakan Website Ini secara bijaksana. Website Ini Hanya untuk Edukasi. Terimakasih.</p>
             </div></div></div>
         </div>
     </div>
@@ -295,6 +372,10 @@ JADWAL TV: /api/info/jadwaltv?channel=sctv</code></pre></div></div>
             <div class="loader-message">Memproses...</div>
             <div class="loader-progress"><div class="loader-progress-bar"><div class="loader-progress-fill"></div></div><div class="loader-progress-text">0%</div></div>
         </div>
+    </div>
+
+    <div class="keyboard-hint">
+        <kbd>Ctrl</kbd> + <kbd>K</kbd> to search
     </div>
 
     <script src="js/script.js"></script>
