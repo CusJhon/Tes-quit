@@ -251,34 +251,165 @@ label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-siz
 .preview-card { background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1.2rem; height: 100%; }
 .preview-image, .preview-video { max-width: 100%; max-height: 250px; border-radius: 0.5rem; }
 .preview-placeholder { text-align: center; padding: 2rem; color: #6c757d; }
+
+/* ========== DOKUMENTASI YANG DIPERBAIKI & RAPIH ========== */
 .docs-section {
-  background: #0f172a;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #1e293b;
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
 }
-
+.docs-section:hover {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(15, 23, 42, 0.85);
+}
 .docs-section h3 {
-  color: #38bdf8;
-  margin-bottom: 10px;
+    color: #60a5fa;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-
+.docs-section h3 i {
+    font-size: 1.3rem;
+}
+.docs-list {
+    list-style: none;
+    padding-left: 0;
+}
 .docs-list li {
-  margin-bottom: 10px;
-  color: #cbd5f5;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0.75rem;
+    color: #cbd5e6;
+}
+.docs-list li strong {
+    color: #fbbf24;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.docs-list li code {
+    background: #020617;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    color: #86efac;
+    word-break: break-all;
+}
+.docs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+.docs-table th,
+.docs-table td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.docs-table th {
+    color: #3b82f6;
+    font-weight: 600;
+    background: rgba(59, 130, 246, 0.1);
+}
+.docs-table td code {
+    background: #020617;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    color: #86efac;
+}
+.tech-stack-modern {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0;
+}
+.tech-stack-modern span {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.1));
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #a5b4fc;
+}
+.disclaimer-box {
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 1rem;
+    padding: 1rem;
+    border-left: 4px solid #ef4444;
+    margin-top: 1rem;
+}
+.disclaimer-box i {
+    color: #ef4444;
+    margin-right: 0.5rem;
+}
+/* Dokumentasi Hero Section */
+.docs-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1));
+    border-radius: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.docs-hero h1 {
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, #fff, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+.docs-badge-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+.docs-badge {
+    background: rgba(59, 130, 246, 0.2);
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    color: #93c5fd;
+}
+.asset-link {
+    background: #0f172a;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    word-break: break-all;
+}
+.asset-link i {
+    font-size: 1.2rem;
+    color: #f59e0b;
+}
+.asset-link code {
+    background: #020617;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    color: #86efac;
+}
+/* Responsive untuk dokumentasi */
+@media (max-width: 768px) {
+    .docs-hero h1 { font-size: 1.5rem; }
+    .docs-section h3 { font-size: 1.1rem; }
+    .docs-table th, .docs-table td { font-size: 0.75rem; padding: 0.5rem; }
+    .docs-list li code { font-size: 0.7rem; }
 }
 
-code {
-  background: #020617;
-  padding: 6px 10px;
-  border-radius: 6px;
-  display: inline-block;
-  color: #22c55e;
-  font-size: 13px;
-}
-
-/* Responsive */
+/* Responsive umum */
 @media (max-width: 900px) {
     .uploader-grid { grid-template-columns: 1fr; }
 }
