@@ -251,6 +251,32 @@ label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-siz
 .preview-card { background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1.2rem; height: 100%; }
 .preview-image, .preview-video { max-width: 100%; max-height: 250px; border-radius: 0.5rem; }
 .preview-placeholder { text-align: center; padding: 2rem; color: #6c757d; }
+.docs-section {
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #1e293b;
+}
+
+.docs-section h3 {
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.docs-list li {
+  margin-bottom: 10px;
+  color: #cbd5f5;
+}
+
+code {
+  background: #020617;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  color: #22c55e;
+  font-size: 13px;
+}
 
 /* Responsive */
 @media (max-width: 900px) {
