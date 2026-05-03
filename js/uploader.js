@@ -1,4 +1,4 @@
-// ==================== KONFIGURASI ====================
+// ==================== KONFIGURASI API ====================
 const CLOUD_NAME = "ddbqhpuoz";
 const UPLOAD_PRESET = "ml_default";
 const IMGBB_API_KEY = "fc04ecb5446e5645ce99bcdab7ba7b86";
@@ -233,6 +233,17 @@ function initUploaderTabs() {
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    bindPreview('imgFile', 'imgPreview', 'imgPreviewEmpty');
+    bindPreview('vidFile', 'vidPreview', 'vidPreviewEmpty');
+    bindPreview('audFile', 'audPreview', 'audPreviewEmpty');
+    initUploaderTabs();
+    
+    updateFileName('imgFile', 'imgFileName');
+    updateFileName('vidFile', 'vidFileName');
+    updateFileName('audFile', 'audFileName');
+});
 
 window.uploadImg = uploadImg;
 window.uploadVid = uploadVid;
