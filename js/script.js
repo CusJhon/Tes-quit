@@ -1,975 +1,1090 @@
-// ========== QUICKFAKE MAIN SCRIPT ==========
-// Mempertahankan semua fungsionalitas original + perbaikan Quote highlight
+// ========== FORMAT MOCKUP V1 ==========
+const formatsV1 = [
+    { id: 'brat', name: 'Brat Text', icon: 'fas fa-font', endpoint: '/maker/brat', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'text', label: 'Teks', type: 'text', placeholder: 'Masukkan teks...' }] },
+    { id: 'fakecall', name: 'Fake Call', icon: 'fas fa-phone-alt', endpoint: '/maker/fakecall', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'nama', label: 'Nama Penelepon', type: 'text', placeholder: 'Jhony' }, { name: 'durasi', label: 'Durasi', type: 'text', placeholder: '19:31' }, { name: 'avatar', label: 'URL Avatar', type: 'url', placeholder: 'https://cdn.discordapp.com/embed/avatars/0.png' }] },
+    { id: 'fakechannel', name: 'Fake Channel', icon: 'fab fa-youtube', endpoint: '/maker/fakechannel', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'url', label: 'URL Gambar', type: 'url' }, { name: 'name', label: 'Nama Channel', type: 'text' }, { name: 'followers', label: 'Followers', type: 'text' }, { name: 'desc', label: 'Deskripsi', type: 'text' }, { name: 'date', label: 'Tanggal', type: 'text' }] },
+    { id: 'fakedana', name: 'Fake DANA', icon: 'fas fa-wallet', endpoint: '/maker/fakedanav2', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'nominal', label: 'Nominal', type: 'text', placeholder: 'Rp 100.000' }] },
+    { id: 'fbcomment', name: 'FB Comment', icon: 'fab fa-facebook', endpoint: '/maker/fakefbcomment', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'name', label: 'Nama', type: 'text' }, { name: 'comment', label: 'Komentar', type: 'text' }, { name: 'url', label: 'URL Foto Profil', type: 'url' }] },
+    { id: 'wagroup', name: 'WA Group', icon: 'fab fa-whatsapp', endpoint: '/maker/fakegroup', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'url', label: 'URL Icon', type: 'url' }, { name: 'title', label: 'Judul', type: 'text' }, { name: 'number', label: 'Jumlah Pesan', type: 'text' }, { name: 'time', label: 'Waktu', type: 'text' }] },
+    { id: 'wagroupv2', name: 'WA Group V2', icon: 'fab fa-whatsapp', endpoint: '/maker/fakegroupv2', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'url', label: 'URL Avatar', type: 'url' }, { name: 'name', label: 'Nama Admin', type: 'text' }, { name: 'members', label: 'Member', type: 'text' }, { name: 'desc', label: 'Deskripsi', type: 'text' }, { name: 'author', label: 'Author', type: 'text' }, { name: 'date', label: 'Tanggal', type: 'text' }] },
+    { id: 'igpost', name: 'IG Post', icon: 'fab fa-instagram', endpoint: '/maker/fakeigpost', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'content', label: 'URL Konten', type: 'url' }, { name: 'username', label: 'Username', type: 'text' }, { name: 'likes', label: 'Likes', type: 'text' }, { name: 'comment', label: 'Comments', type: 'text' }, { name: 'share', label: 'Share', type: 'text' }, { name: 'repost', label: 'Repost', type: 'text' }, { name: 'date', label: 'Tanggal', type: 'text' }, { name: 'desc', label: 'Caption', type: 'textarea' }] },
+    { id: 'tiktokprofile', name: 'TikTok Profile', icon: 'fab fa-tiktok', endpoint: '/maker/faketiktok', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'name', label: 'Nama', type: 'text' }, { name: 'username', label: 'Username', type: 'text' }, { name: 'following', label: 'Following', type: 'text' }, { name: 'followers', label: 'Followers', type: 'text' }, { name: 'likes', label: 'Likes', type: 'text' }, { name: 'url', label: 'URL Foto', type: 'url' }] },
+    { id: 'tiktokcomment', name: 'TikTok Comment', icon: 'fab fa-tiktok', endpoint: '/maker/fakettcomment', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'url', label: 'URL Foto', type: 'url' }, { name: 'username', label: 'Username', type: 'text' }, { name: 'comment', label: 'Komentar', type: 'text' }, { name: 'date', label: 'Tanggal', type: 'text' }] },
+    { id: 'ytcommunity', name: 'YT Community', icon: 'fab fa-youtube', endpoint: '/maker/fakeytcomunity', baseUrl: 'https://api.zenzxz.my.id', params: [{ name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'content', label: 'URL Konten', type: 'url' }, { name: 'username', label: 'Username', type: 'text' }, { name: 'desc', label: 'Deskripsi', type: 'text' }, { name: 'like', label: 'Like', type: 'text' }, { name: 'comment', label: 'Comment', type: 'text' }] },
+    { id: 'ytcomment', name: 'YT Comment', icon: 'fab fa-youtube', endpoint: '/maker/ytcomment', baseUrl: 'https://api.deline.web.id', params: [{ name: 'username', label: 'Username', type: 'text', placeholder: 'cpmjhon21' }, { name: 'text', label: 'Komentar', type: 'textarea', placeholder: 'Tulis komentar di sini...' }, { name: 'avatar', label: 'URL Avatar', type: 'url', placeholder: 'https://example.com/avatar.jpg' }] }
+];
 
-// Global Variables
-let currentUser = null;
-let gateCompleted = false;
-let progressValue = 0;
-let favoriteFormats = JSON.parse(localStorage.getItem('favoriteFormats') || '[]');
+// ========== FORMAT MOCKUP V2 ==========
+const formatsV2 = [
+    { id: 'goodbye', name: 'Goodbye V1', icon: 'fas fa-sign-out-alt', endpoint: '/api/canvas/goodbyev1', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'username', label: 'Username', type: 'text' }, { name: 'guildName', label: 'Nama Guild', type: 'text' }, { name: 'guildIcon', label: 'URL Icon Guild', type: 'url' }, { name: 'memberCount', label: 'Jumlah Member', type: 'text' }, { name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'background', label: 'URL Background', type: 'url' }, { name: 'quality', label: 'Kualitas (1-100)', type: 'text' }] },
+    { id: 'welcome', name: 'Welcome V1', icon: 'fas fa-sign-in-alt', endpoint: '/api/canvas/welcomev1', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'username', label: 'Username', type: 'text' }, { name: 'guildName', label: 'Nama Guild', type: 'text' }, { name: 'guildIcon', label: 'URL Icon Guild', type: 'url' }, { name: 'memberCount', label: 'Jumlah Member', type: 'text' }, { name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'background', label: 'URL Background', type: 'url' }, { name: 'quality', label: 'Kualitas (1-100)', type: 'text' }] },
+    { id: 'spotify', name: 'Spotify Card', icon: 'fab fa-spotify', endpoint: '/api/canvas/spotify', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'title', label: 'Judul Lagu', type: 'text' }, { name: 'artist', label: 'Artis', type: 'text' }, { name: 'start', label: 'Waktu Mulai (ms)', type: 'text' }, { name: 'end', label: 'Waktu Akhir (ms)', type: 'text' }, { name: 'image', label: 'URL Gambar', type: 'url' }, { name: 'border', label: 'Warna Border', type: 'text' }, { name: 'album', label: 'Nama Album', type: 'text' }] },
+    { id: 'gay', name: 'Gay Image', icon: 'fas fa-rainbow', endpoint: '/api/canvas/gay', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'nama', label: 'Nama', type: 'text' }, { name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'num', label: 'Angka', type: 'text' }] },
+    { id: 'profilecard', name: 'Profile Card', icon: 'fas fa-id-card', endpoint: '/api/canvas/profile', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'backgroundURL', label: 'URL Background', type: 'url' }, { name: 'avatarURL', label: 'URL Avatar', type: 'url' }, { name: 'rankName', label: 'Nama Rank', type: 'text' }, { name: 'rankId', label: 'ID Rank', type: 'text' }, { name: 'exp', label: 'EXP', type: 'text' }, { name: 'requireExp', label: 'EXP Required', type: 'text' }, { name: 'level', label: 'Level', type: 'text' }, { name: 'name', label: 'Nama', type: 'text' }] },
+    { id: 'captcha', name: 'Captcha Image', icon: 'fas fa-shield-alt', endpoint: '/api/canvas/captcha', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'background', label: 'URL Background', type: 'url' }, { name: 'captchaKey', label: 'Kode Captcha', type: 'text' }, { name: 'border', label: 'Warna Border', type: 'text' }, { name: 'overlayOpacity', label: 'Opacity Overlay', type: 'text' }] },
+    { id: 'fakecomment', name: 'Fake xnxx Comment', icon: 'fas fa-comment-dots', endpoint: '/api/canvas/fake-xnxx', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'name', label: 'Nama', type: 'text' }, { name: 'quote', label: 'Kutipan', type: 'textarea' }, { name: 'likes', label: 'Jumlah Like', type: 'text' }, { name: 'dislikes', label: 'Jumlah Dislike', type: 'text' }] },
+    { id: 'fakexn', name: 'Fake xnxx', icon: 'fas fa-skull', endpoint: '/api/canvas/xnxx', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'title', label: 'Judul', type: 'text' }, { name: 'image', label: 'URL Gambar', type: 'url' }] },
+    { id: 'beautiful', name: 'Beautiful Image', icon: 'fas fa-star', endpoint: '/api/canvas/beautiful', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url' }] },
+    { id: 'sertifikat', name: 'Sertifikat Tolol', icon: 'fas fa-scroll', endpoint: '/api/canvas/sertifikat-tolol', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'text', label: 'Teks', type: 'text' }] },
+    { id: 'ektp', name: 'eKTP Generator', icon: 'fas fa-id-card', endpoint: '/api/canvas/ektp', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'provinsi', label: 'Provinsi', type: 'text' }, { name: 'kota', label: 'Kota', type: 'text' }, { name: 'nik', label: 'NIK', type: 'text' }, { name: 'nama', label: 'Nama', type: 'text' }, { name: 'ttl', label: 'Tempat/Tgl Lahir', type: 'text' }, { name: 'jenis_kelamin', label: 'Jenis Kelamin', type: 'text' }, { name: 'golongan_darah', label: 'Golongan Darah', type: 'text' }, { name: 'alamat', label: 'Alamat', type: 'textarea' }, { name: 'rt/rw', label: 'RT/RW', type: 'text' }, { name: 'kel/desa', label: 'Kelurahan/Desa', type: 'text' }, { name: 'kecamatan', label: 'Kecamatan', type: 'text' }, { name: 'agama', label: 'Agama', type: 'text' }, { name: 'status', label: 'Status Perkawinan', type: 'text' }, { name: 'pekerjaan', label: 'Pekerjaan', type: 'text' }, { name: 'kewarganegaraan', label: 'Kewarganegaraan', type: 'text' }, { name: 'masa_berlaku', label: 'Masa Berlaku', type: 'text' }, { name: 'terbuat', label: 'Tanggal Terbuat', type: 'text' }, { name: 'pas_photo', label: 'URL Pas Photo', type: 'url' }] },
+    { id: 'levelup', name: 'Level Up Card', icon: 'fas fa-level-up-alt', endpoint: '/api/canvas/level-up', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'backgroundURL', label: 'URL Background', type: 'url' }, { name: 'avatarURL', label: 'URL Avatar', type: 'url' }, { name: 'fromLevel', label: 'Dari Level', type: 'text' }, { name: 'toLevel', label: 'Ke Level', type: 'text' }, { name: 'name', label: 'Nama', type: 'text' }] },
+    { id: 'security', name: 'Security Card', icon: 'fas fa-shield-virus', endpoint: '/api/canvas/security', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'avatar', label: 'URL Avatar', type: 'url' }, { name: 'background', label: 'URL Background', type: 'url' }, { name: 'createdTimestamp', label: 'Created Timestamp', type: 'text' }, { name: 'suspectTimestamp', label: 'Suspect Timestamp', type: 'text' }, { name: 'locale', label: 'Locale', type: 'text' }] },
+    { id: 'greyscale', name: 'Greyscale Image', icon: 'fas fa-adjust', endpoint: '/api/canvas/greyscale', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'invert', name: 'Invert Image', icon: 'fas fa-eye-dropper', endpoint: '/api/canvas/invert', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'blur', name: 'Blur Image Effect', icon: 'fas fa-blur', endpoint: '/api/canvas/blur', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'affect', name: 'Affect Image', icon: 'fas fa-face-smile', endpoint: '/api/canvas/affect', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'delete', name: 'Delete Image', icon: 'fas fa-trash-alt', endpoint: '/api/canvas/delete', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'facepalm', name: 'Facepalm Image', icon: 'fas fa-facepalm', endpoint: '/api/canvas/facepalm', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image', label: 'URL Gambar', type: 'url', placeholder: 'https://example.com/image.jpg' }] },
+    { id: 'kiss', name: 'Kiss Image', icon: 'fas fa-kiss-wink-heart', endpoint: '/api/canvas/kiss', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image1', label: 'URL Gambar 1', type: 'url', placeholder: 'https://example.com/person1.jpg' }, { name: 'image2', label: 'URL Gambar 2', type: 'url', placeholder: 'https://example.com/person2.jpg' }] },
+    { id: 'batslap', name: 'Batslap Image', icon: 'fas fa-hand-back-fist', endpoint: '/api/canvas/batslap', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'image1', label: 'URL Gambar 1', type: 'url', placeholder: 'https://example.com/victim.jpg' }, { name: 'image2', label: 'URL Gambar 2', type: 'url', placeholder: 'https://example.com/hitter.jpg' }] },
+    { id: 'ship', name: 'Ship Image', icon: 'fas fa-heart', endpoint: '/api/canvas/ship', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'avatar1', label: 'URL Avatar 1', type: 'url', placeholder: 'https://example.com/avatar1.jpg' }, { name: 'avatar2', label: 'URL Avatar 2', type: 'url', placeholder: 'https://example.com/avatar2.jpg' }, { name: 'background', label: 'URL Background (Opsional)', type: 'url', placeholder: 'https://example.com/background.jpg' }, { name: 'persen', label: 'Persentase (%)', type: 'text', placeholder: '50' }] },
+    { id: 'quote', name: 'Quote/Reminder Card', icon: 'fas fa-quote-right', endpoint: '/api/canvas/quote', baseUrl: 'https://api.siputzx.my.id', isQuoteCard: true, params: [{ name: 'text', label: 'Teks Quote', type: 'textarea', placeholder: 'Masukkan teks quote di sini...\nGunakan [kurung siku] untuk highlight teks' }, { name: 'author', label: 'Nama Penulis/Sumber', type: 'text', placeholder: 'Seseorang' }, { name: 'bgUrl', label: 'URL Background (Opsional)', type: 'url', placeholder: 'https://example.com/background.jpg' }, { name: 'fontUrl', label: 'URL Font (Opsional)', type: 'url', placeholder: 'https://example.com/font.ttf' }] },
+    { id: 'textpro', name: 'TextPro', icon: 'fas fa-text-height', endpoint: '/api/m/textpro', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'url', label: 'URL TextPro', type: 'url' }, { name: 'text1', label: 'Teks 1', type: 'text' }, { name: 'text2', label: 'Teks 2', type: 'text' }] },
+    { id: 'photooxy', name: 'PhotoOxy', icon: 'fas fa-image', endpoint: '/api/m/photooxy', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'url', label: 'URL PhotoOxy', type: 'url' }, { name: 'text1', label: 'Teks', type: 'text' }] },
+    { id: 'ephoto360', name: 'Ephoto360', icon: 'fas fa-edit', endpoint: '/api/m/ephoto360', baseUrl: 'https://api.siputzx.my.id', params: [{ name: 'url', label: 'URL Ephoto360', type: 'url' }, { name: 'text1', label: 'Teks', type: 'text' }] },
+    { id: 'random_bluearchive', name: 'Random Blue Archive', icon: 'fas fa-dice-d6', endpoint: '/api/r/blue-archive', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_thailand', name: 'Random Cecan Thailand', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/thailand', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_china', name: 'Random Cecan China', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/china', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_vietnam', name: 'Random Cecan Vietnam', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/vietnam', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_indonesia', name: 'Random Cecan Indonesia', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/indonesia', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_japan', name: 'Random Cecan Japan', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/japan', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_cecan_korea', name: 'Random Cecan Korea', icon: 'fas fa-dice-d6', endpoint: '/api/r/cecan/korea', baseUrl: 'https://api.siputzx.my.id', params: [], isRandom: true, isDirectImage: true },
+    { id: 'random_waifu', name: 'Random Waifu', icon: 'fas fa-dice-d6', endpoint: '/sfw/waifu', baseUrl: 'https://api.waifu.pics', params: [], isRandom: true, useWaifuPics: true },
+    { id: 'random_neko', name: 'Random Anime Neko', icon: 'fas fa-dice-d6', endpoint: '/api/v2/neko', baseUrl: 'https://nekos.best', params: [], isRandom: true, useNekosBest: true }
+];
 
-// ========== HELPER FUNCTIONS ==========
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast-notification toast-${type} show`;
-    toast.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-        <span>${message}</span>
-        <div class="toast-progress"></div>
-    `;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
+// ========== APP STORE STATE ==========
+const AppStoreState = {
+    selectedCategory: 'All',
+    searchQuery: '',
+    selectedFormat: null,
+    viewMode: 'grid',
+    favorites: JSON.parse(localStorage.getItem('quickfake_favorites') || '[]')
+};
 
-function showLoading(show, message = 'Memproses...') {
-    const loader = document.getElementById('globalLoader');
-    if (loader) {
-        if (show) {
-            loader.classList.remove('hidden');
-            const msgElement = loader.querySelector('.loader-message');
-            if (msgElement) msgElement.textContent = message;
-        } else {
-            loader.classList.add('hidden');
-        }
+// Categories
+const CATEGORIES_LIST = ['All', 'Social Media', 'Messaging', 'Entertainment', 'Image Effect', 'Random', 'Tools'];
+
+// Get format category
+const getFormatCategory = (format) => {
+    const categoryMap = {
+        'igpost': 'Social Media', 'tiktokprofile': 'Social Media', 'tiktokcomment': 'Social Media',
+        'ytcommunity': 'Social Media', 'ytcomment': 'Social Media', 'fakechannel': 'Social Media',
+        'fbcomment': 'Social Media', 'wagroup': 'Messaging', 'wagroupv2': 'Messaging',
+        'fakecall': 'Messaging', 'brat': 'Entertainment', 'fakedana': 'Tools',
+        'goodbye': 'Entertainment', 'welcome': 'Entertainment', 'spotify': 'Entertainment',
+        'gay': 'Image Effect', 'profilecard': 'Tools', 'captcha': 'Tools', 'beautiful': 'Image Effect',
+        'sertifikat': 'Entertainment', 'ektp': 'Tools', 'levelup': 'Entertainment', 'security': 'Tools',
+        'greyscale': 'Image Effect', 'invert': 'Image Effect', 'blur': 'Image Effect', 'affect': 'Image Effect',
+        'delete': 'Image Effect', 'facepalm': 'Image Effect', 'kiss': 'Image Effect', 'batslap': 'Image Effect',
+        'ship': 'Image Effect', 'quote': 'Tools', 'textpro': 'Tools', 'photooxy': 'Tools', 'ephoto360': 'Tools',
+        'random_waifu': 'Random', 'random_neko': 'Random', 'random_bluearchive': 'Random',
+        'random_cecan_thailand': 'Random', 'random_cecan_china': 'Random', 'random_cecan_vietnam': 'Random',
+        'random_cecan_indonesia': 'Random', 'random_cecan_japan': 'Random', 'random_cecan_korea': 'Random'
+    };
+    return categoryMap[format.id] || 'Tools';
+};
+
+// Check if format is new
+const isNewFormat = (formatId) => {
+    const newFormats = ['quote', 'security', 'levelup', 'random_cecan_korea', 'ship'];
+    return newFormats.includes(formatId);
+};
+
+// Check if format is popular
+const isPopularFormat = (formatId) => {
+    const popularFormats = ['igpost', 'fakecall', 'wagroup', 'spotify', 'random_waifu', 'ektp'];
+    return popularFormats.includes(formatId);
+};
+
+// Save favorites
+const saveFavorites = () => {
+    localStorage.setItem('quickfake_favorites', JSON.stringify(AppStoreState.favorites));
+};
+
+// Toggle favorite
+const toggleFavorite = (formatId, event) => {
+    if (event) event.stopPropagation();
+    const index = AppStoreState.favorites.indexOf(formatId);
+    if (index > -1) {
+        AppStoreState.favorites.splice(index, 1);
+    } else {
+        AppStoreState.favorites.push(formatId);
+    }
+    saveFavorites();
+    renderFormats(currentVersion);
+    if (window.showToast) window.showToast(index > -1 ? 'Removed from favorites' : 'Added to favorites', 'success');
+};
+
+let currentVersion = 'v1';
+let activeFormatV1 = formatsV1[0];
+let activeFormatV2 = formatsV2[0];
+
+// ========== VERIFICATION GATE ==========
+let isFollowed = false, isShared = false;
+
+function checkVerification() {
+    if (localStorage.getItem('quickfake_verified') === 'true') {
+        document.getElementById('gatePage').classList.add('hidden');
+        document.getElementById('splashScreen').style.display = 'flex';
+        initSplashScreen();
+        initAll();
+    } else {
+        document.getElementById('gatePage').style.display = 'flex';
+        document.getElementById('splashScreen').style.display = 'none';
+        document.getElementById('mainContent').classList.add('hidden');
     }
 }
 
-function updateProgress(percent, elementId) {
-    const fillElement = document.getElementById(elementId);
-    if (fillElement) {
-        fillElement.style.width = `${percent}%`;
-    }
-    const percentElement = document.getElementById(elementId.replace('Fill', 'Percent'));
-    if (percentElement) {
-        percentElement.textContent = percent;
+function followSaluran() { 
+    window.open('https://whatsapp.com/channel/0029VaLiUSS5q08hPj5mcH0m', '_blank'); 
+    isFollowed = true; 
+    cekProgress(); 
+}
+
+function shareWA() { 
+    const waText = `*WEBSITE QuickFake By Jhon*\n> ${window.location.href}\n\n*SUMBER UTAMA*\n> https://whatsapp.com/channel/0029VaLiUSS5q08hPj5mcH0m`; 
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`, '_blank'); 
+    isShared = true; 
+    cekProgress(); 
+}
+
+function cekProgress() {
+    const pBar = document.getElementById('pBar'), statusText = document.getElementById('statusText');
+    let progress = (isFollowed ? 50 : 0) + (isShared ? 50 : 0);
+    pBar.style.width = progress + '%';
+    statusText.style.display = 'block';
+    if (progress === 100) {
+        statusText.innerHTML = '✅ Verifikasi berhasil! Mengalihkan...';
+        statusText.style.color = '#10b981';
+        localStorage.setItem('quickfake_verified', 'true');
+        setTimeout(() => {
+            document.getElementById('gatePage').classList.add('hidden');
+            document.getElementById('splashScreen').style.display = 'flex';
+            document.getElementById('mainContent').classList.remove('hidden');
+            initSplashScreen();
+            initAll();
+        }, 1500);
+    } else { 
+        statusText.innerHTML = `Progress: ${progress}% - Selesaikan kedua tugas!`; 
+        statusText.style.color = '#f59e0b'; 
     }
 }
 
-// ========== QUOTE/REMINDER CARD HIGHLIGHT FUNCTION ==========
-function processHighlightText(text) {
-    if (!text) return '';
+// ========== SPLASH SCREEN ==========
+function initSplashScreen() {
+    const splashScreen = document.getElementById('splashScreen');
+    const progressFill = document.getElementById('progressFill');
+    const loadingPercentage = document.getElementById('loadingPercentage');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const messages = [{ text: '🎨 Loading features...', progress: 20 }, { text: '⚡ Connecting to API...', progress: 40 }, { text: '✨ Preparing v1 & v2...', progress: 60 }, { text: '📸 Adding SSWeb...', progress: 80 }, { text: '🎉 Welcome to QuickFake!', progress: 100 }];
+    let currentProgress = 0, msgIndex = 0;
+    createParticles();
+    function updateProgress() {
+        const target = messages[msgIndex]?.progress || 100;
+        const interval = setInterval(() => {
+            if (currentProgress < target) { 
+                currentProgress++; 
+                progressFill.style.width = currentProgress + '%'; 
+                loadingPercentage.textContent = currentProgress; 
+            } else {
+                clearInterval(interval);
+                if (msgIndex < messages.length - 1) { 
+                    msgIndex++; 
+                    const icons = ['', 'network-wired', 'palette', 'camera', 'check-circle']; 
+                    loadingStatus.innerHTML = `<i class="fas fa-${icons[msgIndex]}"></i> ${messages[msgIndex].text}`; 
+                    updateProgress(); 
+                } else { 
+                    setTimeout(() => { 
+                        splashScreen.classList.add('fade-out'); 
+                        document.getElementById('mainContent').classList.remove('hidden'); 
+                        setTimeout(() => { 
+                            document.getElementById('mainContent').classList.add('visible'); 
+                            splashScreen.style.display = 'none'; 
+                        }, 800); 
+                    }, 500); 
+                }
+            }
+        }, 30);
+    }
+    updateProgress();
+}
+
+function createParticles() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+    for (let i = 0; i < 30; i++) { 
+        const p = document.createElement('div'); 
+        p.className = 'particle'; 
+        p.style.position = 'absolute'; 
+        p.style.left = Math.random() * 100 + '%'; 
+        p.style.animationDelay = Math.random() * 3 + 's'; 
+        p.style.animationDuration = 2 + Math.random() * 2 + 's'; 
+        p.style.background = `hsl(${Math.random() * 60 + 200}, 70%, 60%)`; 
+        container.appendChild(p); 
+    }
+}
+
+// ========== RENDER CATEGORY TABS ==========
+function renderCategoryTabs(version) {
+    const container = document.getElementById(`categoryTabs${version.toUpperCase()}`);
+    if (!container) return;
     
-    // Regex untuk mencari teks dalam [kurung siku]
-    const highlightRegex = /\[(.*?)\]/g;
+    container.innerHTML = CATEGORIES_LIST.map(cat => `
+        <button class="category-tab ${AppStoreState.selectedCategory === cat ? 'active' : ''}" data-category="${cat}">
+            ${cat === 'All' ? '<i class="fas fa-th-large"></i>' : ''}
+            ${cat === 'Social Media' ? '<i class="fab fa-instagram"></i>' : ''}
+            ${cat === 'Messaging' ? '<i class="fab fa-whatsapp"></i>' : ''}
+            ${cat === 'Entertainment' ? '<i class="fas fa-music"></i>' : ''}
+            ${cat === 'Image Effect' ? '<i class="fas fa-magic"></i>' : ''}
+            ${cat === 'Random' ? '<i class="fas fa-dice-d6"></i>' : ''}
+            ${cat === 'Tools' ? '<i class="fas fa-tools"></i>' : ''}
+            ${cat}
+        </button>
+    `).join('');
     
-    let processedText = text.replace(highlightRegex, function(match, content) {
-        return `<span class="highlight-text">${escapeHtml(content)}</span>`;
+    container.querySelectorAll('.category-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            AppStoreState.selectedCategory = btn.dataset.category;
+            AppStoreState.selectedFormat = null;
+            AppStoreState.viewMode = 'grid';
+            renderCategoryTabs(version);
+            renderFormats(version);
+            
+            const paramSection = document.getElementById(`paramSection${version.toUpperCase()}`);
+            const grid = document.getElementById(`formatGrid${version.toUpperCase()}`);
+            if (paramSection) paramSection.style.display = 'none';
+            if (grid) grid.style.display = 'grid';
+        });
+    });
+}
+
+// ========== RENDER FORMATS ==========
+function renderFormats(version) {
+    const prefix = version.toUpperCase();
+    const grid = document.getElementById(`formatGrid${prefix}`);
+    const emptyState = document.getElementById(`emptyState${prefix}`);
+    const formatCount = document.getElementById(`formatCount${prefix}`);
+    
+    if (!grid) return;
+    
+    const formats = version === 'v1' ? formatsV1 : formatsV2;
+    
+    let filteredFormats = [...formats];
+    
+    if (AppStoreState.selectedCategory !== 'All') {
+        filteredFormats = filteredFormats.filter(f => getFormatCategory(f) === AppStoreState.selectedCategory);
+    }
+    
+    if (AppStoreState.searchQuery.trim()) {
+        const query = AppStoreState.searchQuery.toLowerCase();
+        filteredFormats = filteredFormats.filter(f => f.name.toLowerCase().includes(query) || f.id.toLowerCase().includes(query));
+    }
+    
+    filteredFormats.sort((a, b) => {
+        const aFav = AppStoreState.favorites.includes(a.id);
+        const bFav = AppStoreState.favorites.includes(b.id);
+        if (aFav && !bFav) return -1;
+        if (!aFav && bFav) return 1;
+        return 0;
     });
     
-    // Ganti newline dengan <br>
-    processedText = processedText.replace(/\n/g, '<br>');
+    if (formatCount) formatCount.textContent = `${filteredFormats.length} format${filteredFormats.length !== 1 ? 's' : ''}`;
     
-    return processedText;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// ========== MOCKUP FORMATS DATA ==========
-const mockupFormatsV1 = [
-    { id: 'brat_text', name: 'Brat Text', category: 'text', icon: 'fas fa-font', params: [{ name: 'text', label: 'Teks', type: 'text', placeholder: 'Masukkan teks brat...', required: true }] },
-    { id: 'fake_call', name: 'Fake Call', category: 'social', icon: 'fas fa-phone-alt', params: [
-        { name: 'caller_name', label: 'Nama Penelepon', type: 'text', placeholder: 'Ibu', required: true },
-        { name: 'caller_avatar', label: 'URL Avatar', type: 'url', placeholder: 'https://...', required: true },
-        { name: 'duration', label: 'Durasi', type: 'text', placeholder: '19:31 atau 2:45', required: true }
-    ]},
-    { id: 'fake_channel', name: 'Fake Channel', category: 'social', icon: 'fab fa-youtube', params: [
-        { name: 'channel_name', label: 'Nama Channel', type: 'text', required: true },
-        { name: 'subscriber_count', label: 'Jumlah Subscriber', type: 'number', placeholder: '1000000', required: true },
-        { name: 'thumbnail_url', label: 'URL Thumbnail', type: 'url', required: true }
-    ]},
-    { id: 'fake_dana', name: 'Fake DANA', category: 'finance', icon: 'fas fa-wallet', params: [
-        { name: 'balance', label: 'Saldo', type: 'text', placeholder: 'Rp 10.000.000', required: true },
-        { name: 'phone_number', label: 'Nomor HP', type: 'text', placeholder: '08123456789', required: true }
-    ]},
-    { id: 'fb_comment', name: 'FB Comment', category: 'social', icon: 'fab fa-facebook', params: [
-        { name: 'name', label: 'Nama', type: 'text', required: true },
-        { name: 'comment', label: 'Komentar', type: 'textarea', required: true },
-        { name: 'avatar_url', label: 'URL Foto Profil', type: 'url', required: true }
-    ]},
-    { id: 'wa_group', name: 'WA Group', category: 'social', icon: 'fab fa-whatsapp', params: [
-        { name: 'group_name', label: 'Nama Grup', type: 'text', required: true },
-        { name: 'admin_name', label: 'Nama Admin', type: 'text', required: true },
-        { name: 'message', label: 'Pesan', type: 'textarea', required: true }
-    ]},
-    { id: 'wa_group_v2', name: 'WA Group V2', category: 'social', icon: 'fab fa-whatsapp', params: [
-        { name: 'group_name', label: 'Nama Grup', type: 'text', required: true },
-        { name: 'admin_name', label: 'Nama Admin', type: 'text', required: true },
-        { name: 'admin_avatar', label: 'URL Avatar Admin', type: 'url', required: true },
-        { name: 'member_names', label: 'Nama Anggota (pisah koma)', type: 'text', required: true },
-        { name: 'message_text', label: 'Teks Pesan', type: 'textarea', required: true }
-    ]},
-    { id: 'ig_post', name: 'IG Post', category: 'social', icon: 'fab fa-instagram', params: [
-        { name: 'username', label: 'Username', type: 'text', required: true },
-        { name: 'avatar_url', label: 'URL Avatar', type: 'url', required: true },
-        { name: 'image_url', label: 'URL Gambar Postingan', type: 'url', required: true },
-        { name: 'caption', label: 'Caption', type: 'textarea', required: true },
-        { name: 'likes', label: 'Jumlah Likes', type: 'number', placeholder: '1000', required: true },
-        { name: 'comments', label: 'Jumlah Comments', type: 'number', placeholder: '50', required: true }
-    ]},
-    { id: 'tiktok_profile', name: 'TikTok Profile', category: 'social', icon: 'fab fa-tiktok', params: [
-        { name: 'username', label: 'Username', type: 'text', required: true },
-        { name: 'display_name', label: 'Nama Tampilan', type: 'text', required: true },
-        { name: 'followers', label: 'Jumlah Followers', type: 'number', required: true },
-        { name: 'avatar_url', label: 'URL Avatar', type: 'url', required: true }
-    ]},
-    { id: 'tiktok_comment', name: 'TikTok Comment', category: 'social', icon: 'fab fa-tiktok', params: [
-        { name: 'username', label: 'Username', type: 'text', required: true },
-        { name: 'comment', label: 'Komentar', type: 'textarea', required: true },
-        { name: 'avatar_url', label: 'URL Avatar', type: 'url', required: true },
-        { name: 'likes', label: 'Jumlah Likes Komentar', type: 'number', required: true }
-    ]},
-    { id: 'greyscale', name: 'Greyscale Image', category: 'tools', icon: 'fas fa-adjust', params: [
-        { name: 'image_url', label: 'URL Gambar', type: 'url', required: true }
-    ]},
-    { id: 'ship_image', name: 'Ship Image', category: 'tools', icon: 'fas fa-heart', params: [
-        { name: 'person1_name', label: 'Nama Orang 1', type: 'text', required: true },
-        { name: 'person1_avatar', label: 'URL Avatar 1', type: 'url', required: true },
-        { name: 'person2_name', label: 'Nama Orang 2', type: 'text', required: true },
-        { name: 'person2_avatar', label: 'URL Avatar 2', type: 'url', required: true },
-        { name: 'percentage', label: 'Persentase', type: 'number', placeholder: '99', required: true }
-    ]},
-    { id: 'quote_card', name: 'Quote/Reminder Card', category: 'text', icon: 'fas fa-quote-right', params: [
-        { name: 'text', label: 'Teks Quote (Gunakan [kurung siku] untuk highlight)', type: 'textarea', placeholder: 'Contoh: [Halo] semua, [selamat pagi]', required: true },
-        { name: 'background_url', label: 'URL Background', type: 'url', placeholder: 'https://...', required: false }
-    ]},
-    { id: 'textpro', name: 'TextPro Effect', category: 'tools', icon: 'fas fa-magic', params: [
-        { name: 'text', label: 'Teks', type: 'text', required: true },
-        { name: 'effect_url', label: 'URL Effect TextPro', type: 'url', placeholder: 'https://textpro.me/...', required: true }
-    ]},
-    { id: 'photooxy', name: 'PhotoOxy Effect', category: 'tools', icon: 'fas fa-image', params: [
-        { name: 'text', label: 'Teks', type: 'text', required: true },
-        { name: 'effect_url', label: 'URL Effect PhotoOxy', type: 'url', placeholder: 'https://photooxy.com/...', required: true }
-    ]}
-];
-
-const mockupFormatsV2 = [
-    { id: 'fake_call_pro', name: 'Fake Call Pro', category: 'social', icon: 'fas fa-phone-alt', params: [
-        { name: 'caller_name', label: 'Nama Penelepon', type: 'text', required: true },
-        { name: 'caller_avatar', label: 'URL Avatar', type: 'url', required: true },
-        { name: 'duration', label: 'Durasi', type: 'text', placeholder: '00:00', required: true },
-        { name: 'caller_number', label: 'Nomor Telepon', type: 'text', placeholder: '+62 XXX', required: false }
-    ]},
-    { id: 'wa_group_premium', name: 'WA Group Premium', category: 'social', icon: 'fab fa-whatsapp', params: [
-        { name: 'group_name', label: 'Nama Grup', type: 'text', required: true },
-        { name: 'admin_name', label: 'Nama Admin', type: 'text', required: true },
-        { name: 'admin_avatar', label: 'URL Avatar Admin', type: 'url', required: true },
-        { name: 'member_names', label: 'Nama Anggota (pisah koma)', type: 'text', required: true },
-        { name: 'message_text', label: 'Teks Pesan', type: 'textarea', required: true },
-        { name: 'timestamp', label: 'Waktu', type: 'text', placeholder: '19:45', required: false }
-    ]},
-    { id: 'ig_post_pro', name: 'IG Post Pro', category: 'social', icon: 'fab fa-instagram', params: [
-        { name: 'username', label: 'Username', type: 'text', required: true },
-        { name: 'avatar_url', label: 'URL Avatar', type: 'url', required: true },
-        { name: 'image_url', label: 'URL Gambar Postingan', type: 'url', required: true },
-        { name: 'caption', label: 'Caption', type: 'textarea', required: true },
-        { name: 'likes', label: 'Jumlah Likes', type: 'number', required: true },
-        { name: 'comments', label: 'Jumlah Comments', type: 'number', required: true },
-        { name: 'share_count', label: 'Jumlah Share', type: 'number', required: true },
-        { name: 'repost_count', label: 'Jumlah Repost', type: 'number', required: true }
-    ]},
-    { id: 'tiktok_profile_pro', name: 'TikTok Profile Pro', category: 'social', icon: 'fab fa-tiktok', params: [
-        { name: 'username', label: 'Username', type: 'text', required: true },
-        { name: 'display_name', label: 'Nama Tampilan', type: 'text', required: true },
-        { name: 'followers', label: 'Jumlah Followers', type: 'number', required: true },
-        { name: 'following', label: 'Jumlah Following', type: 'number', required: true },
-        { name: 'likes', label: 'Jumlah Likes', type: 'number', required: true },
-        { name: 'avatar_url', label: 'URL Avatar', type: 'url', required: true },
-        { name: 'bio', label: 'Bio', type: 'textarea', required: false }
-    ]},
-    { id: 'ship_image_pro', name: 'Ship Image Pro', category: 'tools', icon: 'fas fa-heart', params: [
-        { name: 'person1_name', label: 'Nama Orang 1', type: 'text', required: true },
-        { name: 'person1_avatar', label: 'URL Avatar 1', type: 'url', required: true },
-        { name: 'person2_name', label: 'Nama Orang 2', type: 'text', required: true },
-        { name: 'person2_avatar', label: 'URL Avatar 2', type: 'url', required: true },
-        { name: 'percentage', label: 'Persentase', type: 'number', required: true },
-        { name: 'background_url', label: 'URL Background', type: 'url', required: false }
-    ]},
-    { id: 'quote_card_pro', name: 'Quote Card Pro', category: 'text', icon: 'fas fa-quote-right', params: [
-        { name: 'text', label: 'Teks Quote (Gunakan [kurung siku] untuk highlight)', type: 'textarea', placeholder: 'Contoh: [Halo] semua, [selamat pagi]', required: true },
-        { name: 'background_url', label: 'URL Background', type: 'url', required: false },
-        { name: 'font_url', label: 'URL Font Custom', type: 'url', required: false },
-        { name: 'text_color', label: 'Warna Teks', type: 'text', placeholder: '#ffffff', required: false }
-    ]}
-];
-
-// ========== RENDER FUNCTIONS ==========
-function renderFormatGrid(version) {
-    const formats = version === 'v1' ? mockupFormatsV1 : mockupFormatsV2;
-    const gridContainer = document.getElementById(`formatGrid${version.toUpperCase()}`);
-    const categoryContainer = document.getElementById(`categoryTabs${version.toUpperCase()}`);
-    const formatCount = document.getElementById(`formatCount${version.toUpperCase()}`);
-    
-    if (!gridContainer) return;
-    
-    // Get unique categories
-    const categories = ['Semua', ...new Set(formats.map(f => f.category))];
-    
-    // Render category tabs
-    if (categoryContainer) {
-        categoryContainer.innerHTML = categories.map(cat => `
-            <button class="category-tab ${cat === 'Semua' ? 'active' : ''}" data-category="${cat}" data-version="${version}">
-                <i class="fas ${cat === 'Semua' ? 'fa-th-large' : cat === 'social' ? 'fa-share-alt' : cat === 'text' ? 'fa-font' : cat === 'finance' ? 'fa-chart-line' : 'fa-tools'}"></i>
-                ${cat}
-            </button>
-        `).join('');
-        
-        // Add event listeners to category tabs
-        document.querySelectorAll(`.category-tab[data-version="${version}"]`).forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll(`.category-tab[data-version="${version}"]`).forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                filterFormatsByCategory(version, tab.dataset.category);
-            });
-        });
+    if (filteredFormats.length === 0) {
+        grid.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
     }
     
-    // Render format grid
-    function renderFormats(formatsToRender) {
-        gridContainer.innerHTML = formatsToRender.map(format => `
-            <div class="format-card" data-format-id="${format.id}" data-version="${version}" data-format-name="${format.name}">
-                <i class="${format.icon}"></i>
-                <h3>${format.name}</h3>
-                <div class="format-category">${format.category}</div>
-                <div class="favorite-star ${favoriteFormats.includes(format.id) ? 'favorited' : ''}" data-format-id="${format.id}">
-                    <i class="fas ${favoriteFormats.includes(format.id) ? 'fa-star' : 'fa-star'}"></i>
-                </div>
+    grid.style.display = 'grid';
+    if (emptyState) emptyState.style.display = 'none';
+    
+    const fragment = document.createDocumentFragment();
+    
+    filteredFormats.forEach(format => {
+        const card = document.createElement('div');
+        card.className = `format-card ${AppStoreState.selectedFormat?.id === format.id ? 'active' : ''}`;
+        card.setAttribute('data-format-id', format.id);
+        
+        const isNew = isNewFormat(format.id);
+        const isPopular = isPopularFormat(format.id);
+        const isFavorited = AppStoreState.favorites.includes(format.id);
+        
+        card.innerHTML = `
+            ${isNew ? '<span class="format-badge new">NEW</span>' : ''}
+            ${isPopular ? '<span class="format-badge popular">🔥 POPULAR</span>' : ''}
+            <i class="${format.icon}"></i>
+            <h3>${format.name}</h3>
+            <div class="format-category">${getFormatCategory(format)}</div>
+            <div class="favorite-star ${isFavorited ? 'favorited' : ''}" data-format-id="${format.id}">
+                <i class="fas ${isFavorited ? 'fa-star' : 'fa-star-of-life'}"></i>
             </div>
-        `).join('');
+        `;
         
-        if (formatCount) {
-            formatCount.textContent = `${formatsToRender.length} formats`;
-        }
-        
-        // Add event listeners to format cards
-        document.querySelectorAll(`.format-card[data-version="${version}"]`).forEach(card => {
-            card.addEventListener('click', (e) => {
-                if (e.target.closest('.favorite-star')) return;
-                const formatId = card.dataset.formatId;
-                const formatData = formats.find(f => f.id === formatId);
-                if (formatData) {
-                    showParamForm(version, formatId, formatData);
-                }
-            });
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.favorite-star')) return;
+            AppStoreState.selectedFormat = format;
+            AppStoreState.viewMode = 'detail';
+            renderFormats(version);
+            showFormatDetail(version, format);
         });
         
-        // Add favorite star listeners
-        document.querySelectorAll(`.favorite-star`).forEach(star => {
-            star.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const formatId = star.dataset.formatId;
-                if (favoriteFormats.includes(formatId)) {
-                    favoriteFormats = favoriteFormats.filter(id => id !== formatId);
-                    star.classList.remove('favorited');
-                    showToast(`Removed from favorites`, 'info');
-                } else {
-                    favoriteFormats.push(formatId);
-                    star.classList.add('favorited');
-                    showToast(`Added to favorites`, 'success');
-                }
-                localStorage.setItem('favoriteFormats', JSON.stringify(favoriteFormats));
-            });
+        fragment.appendChild(card);
+    });
+    
+    grid.innerHTML = '';
+    grid.appendChild(fragment);
+    
+    grid.querySelectorAll('.favorite-star').forEach(star => {
+        star.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(star.dataset.formatId, e);
         });
-    }
-    
-    // Initial render
-    renderFormats(formats);
-    
-    // Setup search
-    setupSearch(version, formats, renderFormats);
-    
-    function filterFormatsByCategory(version, category) {
-        const allFormats = version === 'v1' ? mockupFormatsV1 : mockupFormatsV2;
-        const filtered = category === 'Semua' ? allFormats : allFormats.filter(f => f.category === category);
-        renderFormats(filtered);
-    }
+    });
 }
 
-function setupSearch(version, allFormats, renderCallback) {
-    const searchInput = document.getElementById(`searchInput${version.toUpperCase()}`);
-    const searchClear = document.getElementById(`searchClear${version.toUpperCase()}`);
-    const emptyState = document.getElementById(`emptyState${version.toUpperCase()}`);
-    const gridContainer = document.getElementById(`formatGrid${version.toUpperCase()}`);
+// ========== SHOW FORMAT DETAIL ==========
+function showFormatDetail(version, format) {
+    const prefix = version.toUpperCase();
+    const grid = document.getElementById(`formatGrid${prefix}`);
+    const paramSection = document.getElementById(`paramSection${prefix}`);
+    const selectedFormatName = document.getElementById(`selectedFormatName${prefix}`);
+    const backBtn = document.getElementById(`backToGrid${prefix}`);
     
-    if (!searchInput) return;
-    
-    const performSearch = () => {
-        const query = searchInput.value.toLowerCase().trim();
-        const filtered = allFormats.filter(f => 
-            f.name.toLowerCase().includes(query) || 
-            f.category.toLowerCase().includes(query)
-        );
-        
-        if (filtered.length === 0 && emptyState) {
-            gridContainer.style.display = 'none';
-            emptyState.style.display = 'block';
-        } else {
-            gridContainer.style.display = 'grid';
-            if (emptyState) emptyState.style.display = 'none';
-            renderCallback(filtered);
-        }
-        
-        if (searchClear) {
-            searchClear.style.display = query ? 'block' : 'none';
-        }
-    };
-    
-    searchInput.addEventListener('input', performSearch);
-    
-    if (searchClear) {
-        searchClear.addEventListener('click', () => {
-            searchInput.value = '';
-            performSearch();
-            searchInput.focus();
-        });
-    }
-}
-
-function showParamForm(version, formatId, formatData) {
-    const gridContainer = document.getElementById(`formatGrid${version.toUpperCase()}`);
-    const paramSection = document.getElementById(`paramSection${version.toUpperCase()}`);
-    const selectedFormatName = document.getElementById(`selectedFormatName${version.toUpperCase()}`);
-    const paramForm = document.getElementById(`paramForm${version.toUpperCase()}`);
-    const backBtn = document.getElementById(`backToGrid${version.toUpperCase()}`);
-    
-    if (gridContainer) gridContainer.style.display = 'none';
+    if (grid) grid.style.display = 'none';
     if (paramSection) paramSection.style.display = 'block';
-    if (selectedFormatName) selectedFormatName.textContent = formatData.name;
+    if (selectedFormatName) selectedFormatName.textContent = format.name;
     
-    if (paramForm) {
-        paramForm.innerHTML = formatData.params.map(param => `
-            <div class="input-group">
-                <label>${param.label} ${param.required ? '<span style="color:#ef4444;">*</span>' : ''}</label>
-                ${param.type === 'textarea' ? 
-                    `<textarea id="param_${param.name}" placeholder="${param.placeholder || ''}" ${param.required ? 'required' : ''}></textarea>` :
-                    `<input type="${param.type}" id="param_${param.name}" placeholder="${param.placeholder || ''}" ${param.required ? 'required' : ''}>`
-                }
-            </div>
-        `).join('');
-    }
+    if (version === 'v1') activeFormatV1 = format;
+    else activeFormatV2 = format;
     
-    // Setup generate button
-    const generateBtn = document.getElementById(`generateBtn${version.toUpperCase()}`);
-    if (generateBtn) {
-        const newBtn = generateBtn.cloneNode(true);
-        generateBtn.parentNode.replaceChild(newBtn, generateBtn);
-        newBtn.addEventListener('click', () => generateMockup(version, formatId, formatData));
-    }
+    renderParamForm(prefix, format);
     
     if (backBtn) {
         const newBackBtn = backBtn.cloneNode(true);
         backBtn.parentNode.replaceChild(newBackBtn, backBtn);
         newBackBtn.addEventListener('click', () => {
+            AppStoreState.selectedFormat = null;
+            AppStoreState.viewMode = 'grid';
+            if (grid) grid.style.display = 'grid';
             if (paramSection) paramSection.style.display = 'none';
-            if (gridContainer) {
-                gridContainer.style.display = 'grid';
-                // Refresh grid to show all formats
-                const activeCategory = document.querySelector(`.category-tab[data-version="${version}"].active`);
-                if (activeCategory) {
-                    const allFormats = version === 'v1' ? mockupFormatsV1 : mockupFormatsV2;
-                    const filtered = activeCategory.dataset.category === 'Semua' ? allFormats : allFormats.filter(f => f.category === activeCategory.dataset.category);
-                    const gridCont = document.getElementById(`formatGrid${version.toUpperCase()}`);
-                    if (gridCont) {
-                        gridCont.innerHTML = filtered.map(format => `
-                            <div class="format-card" data-format-id="${format.id}" data-version="${version}" data-format-name="${format.name}">
-                                <i class="${format.icon}"></i>
-                                <h3>${format.name}</h3>
-                                <div class="format-category">${format.category}</div>
-                                <div class="favorite-star ${favoriteFormats.includes(format.id) ? 'favorited' : ''}" data-format-id="${format.id}">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        `).join('');
-                        // Reattach events
-                        document.querySelectorAll(`.format-card[data-version="${version}"]`).forEach(card => {
-                            card.addEventListener('click', (e) => {
-                                if (e.target.closest('.favorite-star')) return;
-                                const fid = card.dataset.formatId;
-                                const fdata = (version === 'v1' ? mockupFormatsV1 : mockupFormatsV2).find(f => f.id === fid);
-                                if (fdata) showParamForm(version, fid, fdata);
-                            });
-                        });
-                        document.querySelectorAll('.favorite-star').forEach(star => {
-                            star.addEventListener('click', (e) => {
-                                e.stopPropagation();
-                                const fid = star.dataset.formatId;
-                                if (favoriteFormats.includes(fid)) {
-                                    favoriteFormats = favoriteFormats.filter(id => id !== fid);
-                                    star.classList.remove('favorited');
-                                } else {
-                                    favoriteFormats.push(fid);
-                                    star.classList.add('favorited');
-                                }
-                                localStorage.setItem('favoriteFormats', JSON.stringify(favoriteFormats));
-                            });
-                        });
+            renderFormats(version);
+        });
+    }
+    
+    const generateBtn = document.getElementById(`generateBtn${prefix}`);
+    if (generateBtn) {
+        const newGenerateBtn = generateBtn.cloneNode(true);
+        generateBtn.parentNode.replaceChild(newGenerateBtn, generateBtn);
+        newGenerateBtn.addEventListener('click', () => generateMockup(version));
+    }
+}
+
+// ========== SETUP SEARCH ==========
+function setupSearch(version) {
+    const prefix = version.toUpperCase();
+    const searchInput = document.getElementById(`searchInput${prefix}`);
+    const searchClear = document.getElementById(`searchClear${prefix}`);
+    
+    if (!searchInput) return;
+    
+    let debounceTimer;
+    
+    const handleSearch = () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            AppStoreState.searchQuery = searchInput.value;
+            AppStoreState.selectedFormat = null;
+            AppStoreState.viewMode = 'grid';
+            renderFormats(version);
+            
+            const paramSection = document.getElementById(`paramSection${prefix}`);
+            const grid = document.getElementById(`formatGrid${prefix}`);
+            if (paramSection) paramSection.style.display = 'none';
+            if (grid) grid.style.display = 'grid';
+            
+            if (searchClear) searchClear.style.display = searchInput.value ? 'flex' : 'none';
+        }, 300);
+    };
+    
+    searchInput.addEventListener('input', handleSearch);
+    
+    if (searchClear) {
+        searchClear.addEventListener('click', () => {
+            searchInput.value = '';
+            handleSearch();
+            searchInput.focus();
+        });
+    }
+}
+
+// ========== RENDER FUNCTIONS ==========
+function renderFormatGridV1() {
+    if (!AppStoreState.selectedFormat && AppStoreState.viewMode === 'grid') {
+        renderCategoryTabs('v1');
+        renderFormats('v1');
+        setupSearch('v1');
+    }
+}
+
+function renderFormatGridV2() {
+    if (!AppStoreState.selectedFormat && AppStoreState.viewMode === 'grid') {
+        renderCategoryTabs('v2');
+        renderFormats('v2');
+        setupSearch('v2');
+    }
+}
+
+function renderParamForm(prefix, activeFormat) {
+    const container = document.getElementById(`paramForm${prefix}`);
+    if (!container) return;
+    
+    if (!activeFormat.params?.length) {
+        container.innerHTML = '<div class="input-group"><p style="color:#9ca3af;">✨ Random Image - Klik Generate untuk mendapatkan gambar acak</p></div>';
+        return;
+    }
+    
+    let html = activeFormat.params.map(p => `
+        <div class="input-group">
+            <label>${p.label}</label>
+            ${p.type === 'textarea' ? `<textarea name="${p.name}" rows="3" placeholder="${p.placeholder || ''}"></textarea>` : `<input type="${p.type}" name="${p.name}" placeholder="${p.placeholder || ''}" />`}
+        </div>
+    `).join('');
+    
+    if (activeFormat.id === 'quote') {
+        html += `<div class="tips-form"><i class="fas fa-lightbulb"></i> <strong>✨ Tips:</strong> Gunakan [kurung siku] untuk highlight teks</div>`;
+    }
+    
+    container.innerHTML = html;
+}
+
+function renderParamFormV1() { renderParamForm('V1', activeFormatV1); }
+function renderParamFormV2() { renderParamForm('V2', activeFormatV2); }
+
+// ========== GENERATE LOADING ==========
+function showGenerateLoading(version) {
+    const prefix = version === 'v1' ? 'V1' : 'V2';
+    const btn = document.getElementById(`generateBtn${prefix}`);
+    const loading = document.getElementById(`generateLoading${prefix}`);
+    const fill = document.getElementById(`generateProgressFill${prefix}`);
+    const percent = document.getElementById(`generateProgressPercent${prefix}`);
+    
+    if (btn) btn.classList.add('hidden');
+    if (loading) loading.classList.remove('hidden');
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        if (progress < 95) { 
+            progress += Math.random() * 12; 
+            if (progress > 95) progress = 95; 
+            if (fill) fill.style.width = progress + '%'; 
+            if (percent) percent.textContent = Math.floor(progress); 
+        }
+    }, 180);
+    
+    return { interval, fill, percent };
+}
+
+function hideGenerateLoading(loadingObj, success = true, version) {
+    if (loadingObj && loadingObj.interval) clearInterval(loadingObj.interval);
+    
+    const prefix = version === 'v1' ? 'V1' : 'V2';
+    const btn = document.getElementById(`generateBtn${prefix}`);
+    const container = document.getElementById(`generateLoading${prefix}`);
+    
+    if (success && loadingObj && loadingObj.fill && loadingObj.percent) { 
+        loadingObj.fill.style.width = '100%'; 
+        loadingObj.percent.textContent = '100'; 
+        setTimeout(() => { 
+            if (container) container.classList.add('hidden'); 
+            if (btn) btn.classList.remove('hidden'); 
+        }, 500); 
+    } else { 
+        if (container) container.classList.add('hidden'); 
+        if (btn) btn.classList.remove('hidden'); 
+    }
+}
+
+// ========== FETCH FUNCTIONS ==========
+async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 25000);
+            const response = await fetch(url, { ...options, signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (response.ok) return response;
+            if (response.status === 503 && i < retries - 1) {
+                await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+                continue;
+            }
+            throw new Error(`HTTP ${response.status}`);
+        } catch (err) {
+            if (i === retries - 1) throw err;
+            await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+        }
+    }
+}
+
+async function fetchDirectImage(format) {
+    const apiUrl = `${format.baseUrl}${format.endpoint}`;
+    const response = await fetchWithRetry(apiUrl, { headers: { 'Accept': 'image/*' } });
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+}
+
+async function fetchWaifuPics() {
+    const response = await fetch('https://api.waifu.pics/sfw/waifu');
+    const data = await response.json();
+    return data.url;
+}
+
+async function fetchNekosBest() {
+    const response = await fetch('https://nekos.best/api/v2/neko');
+    const data = await response.json();
+    return data.results[0].url;
+}
+
+// ========== PERBAIKAN QUOTE CARD DENGAN HIGHLIGHT [KURUNG SIKU] ==========
+async function generateQuoteCard(text, author, bgUrl = null, fontUrl = null) {
+    const backgroundUrl = bgUrl || 'https://raw.githubusercontent.com/CusJhon/Asset-/542413b90c0f414672859cb0b461c5b7db0aac9f/Image/_20260425155846190.jpeg';
+    const fontUrlToUse = fontUrl || 'https://raw.githubusercontent.com/CusJhon/Asset-/542413b90c0f414672859cb0b461c5b7db0aac9f/Font/CrimsonText-Regular.ttf';
+    
+    try {
+        // Load font
+        const fontResponse = await fetch(fontUrlToUse);
+        const fontBuffer = await fontResponse.arrayBuffer();
+        const fontBlob = new Blob([fontBuffer], { type: 'font/ttf' });
+        const fontUrlBlob = URL.createObjectURL(fontBlob);
+        const font = new FontFace('CustomFont', `url(${fontUrlBlob})`);
+        await font.load();
+        document.fonts.add(font);
+        URL.revokeObjectURL(fontUrlBlob);
+        
+        // Load background image
+        const bgResponse = await fetch(backgroundUrl);
+        const bgBuffer = await bgResponse.arrayBuffer();
+        const bgBlob = new Blob([bgBuffer], { type: 'image/jpeg' });
+        const bgUrlBlob = URL.createObjectURL(bgBlob);
+        
+        const bgImage = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error('Gagal load background'));
+            img.src = bgUrlBlob;
+        });
+        URL.revokeObjectURL(bgUrlBlob);
+        
+        // Setup canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = bgImage.width;
+        canvas.height = bgImage.height;
+        
+        // Draw background
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        
+        // Add semi-transparent overlay agar teks lebih terbaca
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // ========== PROSES TEKS DENGAN HIGHLIGHT [kurung siku] ==========
+        // Parse teks untuk mencari pola [teks] dan ganti dengan highlight
+        const highlightRegex = /\[([^\]]+)\]/g;
+        const segments = [];
+        let lastIndex = 0;
+        let match;
+        
+        while ((match = highlightRegex.exec(text)) !== null) {
+            // Teks biasa sebelum highlight
+            if (match.index > lastIndex) {
+                segments.push({
+                    type: 'text',
+                    content: text.substring(lastIndex, match.index)
+                });
+            }
+            // Teks highlight (tanpa kurung siku)
+            segments.push({
+                type: 'highlight',
+                content: match[1]
+            });
+            lastIndex = match.index + match[0].length;
+        }
+        
+        // Sisa teks biasa
+        if (lastIndex < text.length) {
+            segments.push({
+                type: 'text',
+                content: text.substring(lastIndex)
+            });
+        }
+        
+        // Jika tidak ada highlight sama sekali, treat seluruh teks sebagai teks biasa
+        if (segments.length === 0) {
+            segments.push({
+                type: 'text',
+                content: text
+            });
+        }
+        
+        // Konfigurasi teks
+        const baseFontSize = Math.min(canvas.width / 22, 52);
+        const lineHeight = baseFontSize * 1.4;
+        const maxWidth = canvas.width - 100;
+        const startX = 50;
+        let currentY = canvas.height / 2 - 60;
+        
+        ctx.font = `${baseFontSize}px CustomFont`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        
+        // Fungsi untuk mengukur lebar teks
+        function measureTextWidth(txt) {
+            return ctx.measureText(txt).width;
+        }
+        
+        // Kumpulkan semua segmen menjadi satu array karakter dengan metadata highlight
+        const chars = [];
+        for (const seg of segments) {
+            for (let i = 0; i < seg.content.length; i++) {
+                chars.push({
+                    char: seg.content[i],
+                    isHighlight: seg.type === 'highlight'
+                });
+            }
+        }
+        
+        // Fungsi menggambar satu baris dengan highlight
+        function drawHighlightedLine(ctxRef, charsArray, x, y, fontSize) {
+            let currentX = x;
+            let currentHighlightChars = [];
+            let currentNormalChars = [];
+            
+            for (let i = 0; i <= charsArray.length; i++) {
+                const char = charsArray[i];
+                const nextChar = charsArray[i + 1];
+                
+                if (char) {
+                    if (char.isHighlight) {
+                        currentHighlightChars.push(char.char);
+                    } else {
+                        currentNormalChars.push(char.char);
+                    }
+                }
+                
+                // Jika ganti tipe atau akhir array, gambar segmen yang terkumpul
+                if ((char && nextChar && char.isHighlight !== nextChar.isHighlight) || i === charsArray.length - 1) {
+                    // Gambar teks normal
+                    if (currentNormalChars.length > 0) {
+                        const normalText = currentNormalChars.join('');
+                        const metrics = ctxRef.measureText(normalText);
+                        ctxRef.fillStyle = '#FFFFFF';
+                        ctxRef.font = `${fontSize}px CustomFont`;
+                        ctxRef.fillText(normalText, currentX, y);
+                        currentX += metrics.width;
+                        currentNormalChars = [];
+                    }
+                    
+                    // Gambar highlight
+                    if (currentHighlightChars.length > 0) {
+                        const highlightText = currentHighlightChars.join('');
+                        const metrics = ctxRef.measureText(highlightText);
+                        const highlightWidth = metrics.width;
+                        const highlightHeight = fontSize * 1.2;
+                        
+                        // Gambar background highlight (kuning dengan efek rounded)
+                        ctxRef.save();
+                        ctxRef.shadowBlur = 0;
+                        ctxRef.fillStyle = '#FBBF24';
+                        
+                        // Rounded rectangle untuk background
+                        const radius = 8;
+                        ctxRef.beginPath();
+                        ctxRef.moveTo(currentX + radius, y);
+                        ctxRef.lineTo(currentX + highlightWidth - radius, y);
+                        ctxRef.quadraticCurveTo(currentX + highlightWidth, y, currentX + highlightWidth, y + radius);
+                        ctxRef.lineTo(currentX + highlightWidth, y + highlightHeight - radius);
+                        ctxRef.quadraticCurveTo(currentX + highlightWidth, y + highlightHeight, currentX + highlightWidth - radius, y + highlightHeight);
+                        ctxRef.lineTo(currentX + radius, y + highlightHeight);
+                        ctxRef.quadraticCurveTo(currentX, y + highlightHeight, currentX, y + highlightHeight - radius);
+                        ctxRef.lineTo(currentX, y + radius);
+                        ctxRef.quadraticCurveTo(currentX, y, currentX + radius, y);
+                        ctxRef.closePath();
+                        ctxRef.fill();
+                        
+                        // Gambar teks dengan warna gelap agar kontras
+                        ctxRef.fillStyle = '#1F2937';
+                        ctxRef.font = `${fontSize}px CustomFont`;
+                        ctxRef.fillText(highlightText, currentX, y);
+                        ctxRef.restore();
+                        
+                        currentX += highlightWidth;
+                        currentHighlightChars = [];
                     }
                 }
             }
-        });
-    }
-}
-
-async function generateMockup(version, formatId, formatData) {
-    // Collect parameters
-    const params = {};
-    let isValid = true;
-    
-    for (const param of formatData.params) {
-        const input = document.getElementById(`param_${param.name}`);
-        if (input) {
-            const value = input.value.trim();
-            if (param.required && !value) {
-                showToast(`${param.label} wajib diisi!`, 'error');
-                isValid = false;
-                break;
-            }
-            params[param.name] = value;
-        }
-    }
-    
-    if (!isValid) return;
-    
-    // Special handling for quote_card - process highlight text
-    if (formatId === 'quote_card' || formatId === 'quote_card_pro') {
-        if (params.text) {
-            params.text = processHighlightText(params.text);
-        }
-    }
-    
-    // Show loading
-    const loadingDiv = document.getElementById(`generateLoading${version.toUpperCase()}`);
-    const generateBtn = document.getElementById(`generateBtn${version.toUpperCase()}`);
-    const resultArea = document.getElementById(`resultArea${version.toUpperCase()}`);
-    const progressFill = document.getElementById(`generateProgressFill${version.toUpperCase()}`);
-    const progressPercent = document.getElementById(`generateProgressPercent${version.toUpperCase()}`);
-    
-    if (loadingDiv) loadingDiv.classList.remove('hidden');
-    if (generateBtn) generateBtn.classList.add('hidden');
-    if (resultArea) {
-        resultArea.innerHTML = `<div class="result-placeholder"><i class="fas fa-spinner fa-pulse"></i><p>Sedang memproses ${formatData.name}...</p></div>`;
-    }
-    
-    // Simulate progress
-    let progress = 0;
-    const progressInterval = setInterval(() => {
-        progress += Math.random() * 20;
-        if (progress >= 90) {
-            progress = 90;
-            clearInterval(progressInterval);
-        }
-        if (progressFill) progressFill.style.width = `${progress}%`;
-        if (progressPercent) progressPercent.textContent = Math.floor(progress);
-    }, 200);
-    
-    try {
-        // Build query string
-        const queryParams = new URLSearchParams(params).toString();
-        const apiUrl = `/api/generate/${formatId}?${queryParams}`;
-        
-        const response = await fetch(apiUrl);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            return currentX;
         }
         
-        const imageBlob = await response.blob();
-        const imageUrl = URL.createObjectURL(imageBlob);
+        // Render teks dengan word wrap
+        let lineChars = [];
+        let yOffset = currentY;
         
-        clearInterval(progressInterval);
-        if (progressFill) progressFill.style.width = '100%';
-        if (progressPercent) progressPercent.textContent = '100';
-        
-        setTimeout(() => {
-            if (resultArea) {
-                resultArea.innerHTML = `
-                    <div class="result-content">
-                        <img src="${imageUrl}" alt="${formatData.name}" style="max-width:100%; border-radius:1rem; box-shadow:0 8px 20px rgba(0,0,0,0.3);">
-                        <button class="download-btn" onclick="downloadImage('${imageUrl}', '${formatId}.png')">
-                            <i class="fas fa-download"></i> Download Image
-                        </button>
-                    </div>
-                `;
-            }
-            if (loadingDiv) loadingDiv.classList.add('hidden');
-            if (generateBtn) generateBtn.classList.remove('hidden');
-            showToast(`${formatData.name} berhasil dibuat!`, 'success');
-        }, 500);
-        
-    } catch (error) {
-        console.error('Error:', error);
-        clearInterval(progressInterval);
-        if (resultArea) {
-            resultArea.innerHTML = `<div class="result-placeholder"><i class="fas fa-exclamation-triangle"></i><p>Gagal memproses: ${error.message}</p></div>`;
-        }
-        if (loadingDiv) loadingDiv.classList.add('hidden');
-        if (generateBtn) generateBtn.classList.remove('hidden');
-        showToast(`Gagal membuat ${formatData.name}`, 'error');
-    }
-}
-
-// Download function
-function downloadImage(url, filename) {
-    const link = document.createElement('a');
-    link.download = filename;
-    link.href = url;
-    link.click();
-}
-
-// Navigation Functions
-function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const pages = {
-        home: document.getElementById('homePage'),
-        ssweb: document.getElementById('sswebPage'),
-        uploader: document.getElementById('uploaderPage'),
-        info: document.getElementById('infoPage'),
-        howto: document.getElementById('howtoPage'),
-        guide: document.getElementById('guidePage'),
-        docs: document.getElementById('docsPage')
-    };
-    
-    function setActivePage(pageId) {
-        Object.keys(pages).forEach(id => {
-            if (pages[id]) pages[id].classList.remove('active-page');
-        });
-        if (pages[pageId]) pages[pageId].classList.add('active-page');
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('data-page') === pageId) link.classList.add('active');
-        });
-        
-        // Render specific content when page changes
-        if (pageId === 'home') {
-            if (document.querySelector('.mockup-tab.active-tab')?.id === 'mockupV1') {
-                renderFormatGrid('v1');
-            } else {
-                renderFormatGrid('v2');
-            }
-        }
-    }
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const page = link.getAttribute('data-page');
-            if (page && pages[page]) setActivePage(page);
+        for (let i = 0; i < chars.length; i++) {
+            const char = chars[i];
+            const testLine = lineChars.map(c => c.char).join('') + char.char;
+            const testWidth = measureTextWidth(testLine);
             
-            const mobileMenu = document.getElementById('navMenu');
-            if (mobileMenu && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
+            if (testWidth > maxWidth && lineChars.length > 0) {
+                // Gambar line saat ini
+                drawHighlightedLine(ctx, lineChars, startX, yOffset, baseFontSize);
+                yOffset += lineHeight;
+                lineChars = [char];
+            } else {
+                lineChars.push(char);
             }
-        });
-    });
-    
-    // Tab switching for mockup v1/v2
-    const tabV1Btn = document.getElementById('tabV1Btn');
-    const tabV2Btn = document.getElementById('tabV2Btn');
-    const mockupV1 = document.getElementById('mockupV1');
-    const mockupV2 = document.getElementById('mockupV2');
-    
-    if (tabV1Btn && tabV2Btn) {
-        tabV1Btn.addEventListener('click', () => {
-            tabV1Btn.classList.add('active');
-            tabV2Btn.classList.remove('active');
-            mockupV1.classList.add('active-tab');
-            mockupV2.classList.remove('active-tab');
-            renderFormatGrid('v1');
-        });
+        }
         
-        tabV2Btn.addEventListener('click', () => {
-            tabV2Btn.classList.add('active');
-            tabV1Btn.classList.remove('active');
-            mockupV2.classList.add('active-tab');
-            mockupV1.classList.remove('active-tab');
-            renderFormatGrid('v2');
-        });
-    }
-    
-    // Mobile menu toggle
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
+        // Gambar line terakhir
+        if (lineChars.length > 0) {
+            drawHighlightedLine(ctx, lineChars, startX, yOffset, baseFontSize);
+            yOffset += lineHeight;
+        }
+        
+        // Gambar author
+        if (author && author.trim()) {
+            const authorY = Math.min(yOffset + 30, canvas.height - 60);
+            ctx.font = `${Math.max(baseFontSize * 0.65, 18)}px CustomFont`;
+            ctx.fillStyle = '#CBD5E1';
+            ctx.textAlign = 'right';
+            ctx.fillText(`— ${author} —`, canvas.width - 50, authorY);
+        }
+        
+        // Convert ke blob
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+        return URL.createObjectURL(blob);
+        
+    } catch (error) {
+        console.error('Quote card error:', error);
+        throw new Error(`Gagal membuat quote card: ${error.message}`);
     }
 }
 
-// Initialize info pages (berita, gempa, cuaca, jadwal TV)
-function initInfoPages() {
-    // Info tabs
-    const infoTabs = document.querySelectorAll('.info-tab-btn');
-    const infoSections = {
-        berita: document.getElementById('infoBerita'),
-        gempa: document.getElementById('infoGempa'),
-        cuaca: document.getElementById('infoCuaca'),
-        jadwaltv: document.getElementById('infoJadwalTV')
-    };
-    
-    infoTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            infoTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            Object.keys(infoSections).forEach(key => {
-                if (infoSections[key]) infoSections[key].classList.remove('active-info');
-            });
-            const target = tab.dataset.info;
-            if (infoSections[target]) infoSections[target].classList.add('active-info');
-        });
-    });
-    
-    // Berita sources
-    const sourceBtns = document.querySelectorAll('.source-btn');
-    sourceBtns.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            sourceBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const source = btn.dataset.source;
-            await loadBerita(source);
-        });
-    });
-    
-    // Gempa subtabs
-    const gempaSubtabs = document.querySelectorAll('.gempa-subtab');
-    gempaSubtabs.forEach(tab => {
-        tab.addEventListener('click', async () => {
-            gempaSubtabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            const type = tab.dataset.gempa;
-            await loadGempaData(type);
-        });
-    });
-    
-    // Cuaca search
-    const searchCuacaBtn = document.getElementById('searchCuacaBtn');
-    if (searchCuacaBtn) {
-        searchCuacaBtn.addEventListener('click', async () => {
-            const city = document.getElementById('cuacaCity')?.value;
-            if (city) await loadCuaca(city);
-        });
-    }
-    
-    // TV channels
-    const channelBtns = document.querySelectorAll('.channel-btn');
-    channelBtns.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            channelBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const channel = btn.dataset.channel;
-            await loadJadwalTV(channel);
-        });
-    });
-}
-
-async function loadBerita(source) {
-    const contentDiv = document.getElementById('beritaContent');
-    if (!contentDiv) return;
-    
-    contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-spinner fa-pulse"></i> Memuat berita...</div>';
+// ========== GENERATE MOCKUP ==========
+async function generateMockup(version) {
+    const prefix = version === 'v1' ? 'V1' : 'V2';
+    const activeFormat = version === 'v1' ? activeFormatV1 : activeFormatV2;
+    const resultDiv = document.getElementById(`resultArea${prefix}`);
+    const loadingObj = showGenerateLoading(version);
     
     try {
-        const response = await fetch(`/api/berita/${source}`);
-        const data = await response.json();
-        
-        if (data && data.articles && data.articles.length > 0) {
-            contentDiv.innerHTML = data.articles.map(article => `
-                <div class="berita-item">
-                    <div class="berita-title">
-                        <a href="${article.url}" target="_blank">${article.title || 'Judul tidak tersedia'}</a>
-                    </div>
-                    <div style="font-size:0.75rem; color:#9ca3af; margin-top:0.5rem;">
-                        ${article.published_at ? new Date(article.published_at).toLocaleString('id-ID') : ''}
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-info-circle"></i> Tidak ada berita tersedia</div>';
-        }
-    } catch (error) {
-        console.error('Error loading berita:', error);
-        contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-exclamation-triangle"></i> Gagal memuat berita</div>';
-    }
-}
-
-async function loadGempaData(type) {
-    const contentDiv = document.getElementById('gempaContent');
-    if (!contentDiv) return;
-    
-    contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-spinner fa-pulse"></i> Memuat data gempa...</div>';
-    
-    try {
-        const response = await fetch(`/api/info/bmkg?type=${type}`);
-        const data = await response.json();
-        
-        if (data && data.gempa && data.gempa.length > 0) {
-            contentDiv.innerHTML = data.gempa.map(g => `
-                <div class="gempa-item">
-                    <div><strong>📍 ${g.wilayah || 'Lokasi tidak diketahui'}</strong></div>
-                    <div>📅 ${g.tanggal || '-'} | 🕐 ${g.jam || '-'}</div>
-                    <div>📊 Magnitudo: ${g.magnitude || '-'} | 📏 Kedalaman: ${g.kedalaman || '-'}</div>
-                    <div style="color:#fbbf24;">⚠️ ${g.potensi || ''}</div>
-                </div>
-            `).join('');
-        } else {
-            contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-info-circle"></i> Tidak ada data gempa terkini</div>';
-        }
-    } catch (error) {
-        console.error('Error loading gempa:', error);
-        contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-exclamation-triangle"></i> Gagal memuat data gempa</div>';
-    }
-}
-
-async function loadCuaca(city) {
-    const contentDiv = document.getElementById('cuacaContent');
-    if (!contentDiv) return;
-    
-    contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-spinner fa-pulse"></i> Memuat data cuaca...</div>';
-    
-    try {
-        const response = await fetch(`/api/info/cuaca?q=${encodeURIComponent(city)}`);
-        const data = await response.json();
-        
-        if (data && data.location) {
-            contentDiv.innerHTML = `
-                <div style="text-align:center; padding:1rem;">
-                    <h3>📍 ${data.location}</h3>
-                    <div class="cuaca-temp">${data.temperature || '-'}°C</div>
-                    <div>🌡️ ${data.condition || '-'}</div>
-                    <div>💧 Kelembaban: ${data.humidity || '-'}%</div>
-                    <div>💨 Kecepatan Angin: ${data.wind_speed || '-'} km/h</div>
-                </div>
-            `;
-        } else {
-            contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-info-circle"></i> Data cuaca tidak ditemukan</div>';
-        }
-    } catch (error) {
-        console.error('Error loading cuaca:', error);
-        contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-exclamation-triangle"></i> Gagal memuat data cuaca</div>';
-    }
-}
-
-async function loadJadwalTV(channel) {
-    const contentDiv = document.getElementById('jadwaltvContent');
-    if (!contentDiv) return;
-    
-    contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-spinner fa-pulse"></i> Memuat jadwal TV...</div>';
-    
-    try {
-        const response = await fetch(`/api/info/jadwaltv?channel=${channel}`);
-        const data = await response.json();
-        
-        if (data && data.schedule && data.schedule.length > 0) {
-            contentDiv.innerHTML = data.schedule.map(item => `
-                <div class="tv-item">
-                    <span class="tv-jam">${item.time || '-'}</span>
-                    <span>${item.program || '-'}</span>
-                </div>
-            `).join('');
-        } else {
-            contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-info-circle"></i> Jadwal TV tidak tersedia</div>';
-        }
-    } catch (error) {
-        console.error('Error loading jadwal TV:', error);
-        contentDiv.innerHTML = '<div class="loading-info"><i class="fas fa-exclamation-triangle"></i> Gagal memuat jadwal TV</div>';
-    }
-}
-
-// Initialize SSWeb
-function initSSWeb() {
-    const generateBtn = document.getElementById('sswebGenerateBtn');
-    if (!generateBtn) return;
-    
-    generateBtn.addEventListener('click', async () => {
-        const url = document.getElementById('sswebUrl')?.value;
-        const device = document.getElementById('sswebDevice')?.value;
-        const fullPage = document.getElementById('sswebFullPage')?.value;
-        const scale = document.getElementById('sswebScale')?.value;
-        
-        if (!url) {
-            showToast('URL Website wajib diisi!', 'error');
+        if (activeFormat.isRandom) {
+            let imageUrl;
+            if (activeFormat.isDirectImage) imageUrl = await fetchDirectImage(activeFormat);
+            else if (activeFormat.useWaifuPics) imageUrl = await fetchWaifuPics();
+            else imageUrl = await fetchNekosBest();
+            
+            resultDiv.innerHTML = `<div class="result-content"><img src="${imageUrl}" loading="lazy" style="max-width:100%; border-radius:1rem;"/><div style="margin-top:20px;"><button class="download-btn" id="downloadImageBtn${prefix}"><i class="fas fa-download"></i> Download</button></div></div>`;
+            const downloadBtn = document.getElementById(`downloadImageBtn${prefix}`);
+            if (downloadBtn) downloadBtn.onclick = () => window.downloadImage?.(imageUrl, `${activeFormat.id}_${Date.now()}.png`);
+            hideGenerateLoading(loadingObj, true, version);
+            window.showToast?.('Gambar acak berhasil dihasilkan!', 'success');
             return;
         }
         
-        const loadingDiv = document.getElementById('sswebLoading');
-        const resultArea = document.getElementById('sswebResultArea');
-        const progressFill = document.getElementById('sswebProgressFill');
-        const progressPercent = document.getElementById('sswebProgressPercent');
-        
-        if (loadingDiv) loadingDiv.classList.remove('hidden');
-        if (generateBtn) generateBtn.classList.add('hidden');
-        if (resultArea) {
-            resultArea.innerHTML = `<div class="result-placeholder"><i class="fas fa-spinner fa-pulse"></i><p>Mengambil screenshot...</p></div>`;
-        }
-        
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress >= 90) {
-                progress = 90;
-                clearInterval(progressInterval);
-            }
-            if (progressFill) progressFill.style.width = `${progress}%`;
-            if (progressPercent) progressPercent.textContent = Math.floor(progress);
-        }, 200);
-        
-        try {
-            const apiUrl = `/api/screenshot?url=${encodeURIComponent(url)}&device=${device}&fullpage=${fullPage === 'penuh'}&scale=${scale}`;
-            const response = await fetch(apiUrl);
+        if (activeFormat.isQuoteCard || activeFormat.id === 'quote') {
+            const textInput = document.querySelector(`#paramForm${prefix} textarea[name="text"], #paramForm${prefix} input[name="text"]`);
+            const authorInput = document.querySelector(`#paramForm${prefix} input[name="author"]`);
+            const bgUrlInput = document.querySelector(`#paramForm${prefix} input[name="bgUrl"]`);
+            const fontUrlInput = document.querySelector(`#paramForm${prefix} input[name="fontUrl"]`);
             
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
-            const imageBlob = await response.blob();
-            const imageUrl = URL.createObjectURL(imageBlob);
-            
-            clearInterval(progressInterval);
-            if (progressFill) progressFill.style.width = '100%';
-            if (progressPercent) progressPercent.textContent = '100';
-            
-            setTimeout(() => {
-                if (resultArea) {
-                    resultArea.innerHTML = `
-                        <div class="result-content">
-                            <img src="${imageUrl}" alt="Screenshot" style="max-width:100%; border-radius:1rem;">
-                            <button class="download-btn" onclick="downloadImage('${imageUrl}', 'screenshot.png')">
-                                <i class="fas fa-download"></i> Download Screenshot
-                            </button>
-                        </div>
-                    `;
-                }
-                if (loadingDiv) loadingDiv.classList.add('hidden');
-                if (generateBtn) generateBtn.classList.remove('hidden');
-                showToast('Screenshot berhasil diambil!', 'success');
-            }, 500);
-            
-        } catch (error) {
-            console.error('Error:', error);
-            clearInterval(progressInterval);
-            if (resultArea) {
-                resultArea.innerHTML = `<div class="result-placeholder"><i class="fas fa-exclamation-triangle"></i><p>Gagal mengambil screenshot: ${error.message}</p></div>`;
-            }
-            if (loadingDiv) loadingDiv.classList.add('hidden');
-            if (generateBtn) generateBtn.classList.remove('hidden');
-            showToast('Gagal mengambil screenshot', 'error');
-        }
-    });
-}
-
-// Initialize Uploader (akan di-handle oleh uploader.js)
-function initUploader() {
-    const tabBtns = document.querySelectorAll('.uploader-tab-btn');
-    const sections = {
-        img: document.getElementById('uploaderImg'),
-        vid: document.getElementById('uploaderVid'),
-        aud: document.getElementById('uploaderAud')
-    };
-    
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const target = btn.dataset.uploader;
-            Object.keys(sections).forEach(key => {
-                if (sections[key]) sections[key].style.display = 'none';
-            });
-            if (sections[target]) sections[target].style.display = 'block';
-        });
-    });
-}
-
-// Splash screen handler
-function initSplashScreen() {
-    const splashScreen = document.getElementById('splashScreen');
-    const mainContent = document.getElementById('mainContent');
-    const gatePage = document.getElementById('gatePage');
-    
-    if (gatePage) {
-        gatePage.style.display = 'flex';
-    }
-    
-    // Simulate gate completion for demo (remove this in production)
-    setTimeout(() => {
-        if (gatePage) gatePage.style.display = 'none';
-        if (splashScreen) splashScreen.style.display = 'flex';
-        
-        let progress = 0;
-        const progressFill = document.getElementById('progressFill');
-        const percentageSpan = document.getElementById('loadingPercentage');
-        const statusSpan = document.getElementById('loadingStatus');
-        
-        const statusMessages = [
-            '<i class="fas fa-magic"></i> Initializing...',
-            '<i class="fas fa-cog fa-spin"></i> Loading modules...',
-            '<i class="fas fa-palette"></i> Preparing mockup generator...',
-            '<i class="fas fa-cloud-upload-alt"></i> Connecting APIs...',
-            '<i class="fas fa-check-circle"></i> Almost ready...'
-        ];
-        
-        const interval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                if (progressFill) progressFill.style.width = '100%';
-                if (percentageSpan) percentageSpan.textContent = '100';
-                
-                setTimeout(() => {
-                    if (splashScreen) {
-                        splashScreen.classList.add('fade-out');
-                        setTimeout(() => {
-                            splashScreen.style.display = 'none';
-                            if (mainContent) {
-                                mainContent.classList.remove('hidden');
-                                mainContent.classList.add('visible');
-                            }
-                        }, 800);
+            const imageUrl = await generateQuoteCard(textInput?.value || '', authorInput?.value || 'Seseorang', bgUrlInput?.value, fontUrlInput?.value);
+            resultDiv.innerHTML = `<div class="result-content"><img src="${imageUrl}" loading="lazy" style="max-width:100%; border-radius:1rem;"/><div style="margin-top:20px;"><button class="download-btn" id="downloadImageBtn${prefix}"><i class="fas fa-download"></i> Download</button><button class="download-btn" id="downloadImageBtn2${prefix}" style="margin-left:10px;"><i class="fas fa-copy"></i> Copy Image</button></div></div>`;
+            const downloadBtn = document.getElementById(`downloadImageBtn${prefix}`);
+            if (downloadBtn) downloadBtn.onclick = () => window.downloadImage?.(imageUrl, `quote_card_${Date.now()}.png`);
+            const copyBtn = document.getElementById(`downloadImageBtn2${prefix}`);
+            if (copyBtn) {
+                copyBtn.onclick = async () => {
+                    try {
+                        const response = await fetch(imageUrl);
+                        const blob = await response.blob();
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                                [blob.type]: blob
+                            })
+                        ]);
+                        window.showToast?.('Gambar berhasil disalin ke clipboard!', 'success');
+                    } catch (err) {
+                        window.showToast?.('Gagal menyalin gambar', 'error');
                     }
-                }, 500);
+                };
             }
-            
-            if (progressFill) progressFill.style.width = `${progress}%`;
-            if (percentageSpan) percentageSpan.textContent = Math.floor(progress);
-            
-            const statusIndex = Math.min(Math.floor(progress / 20), statusMessages.length - 1);
-            if (statusSpan) statusSpan.innerHTML = statusMessages[statusIndex];
-        }, 200);
-    }, 1000);
+            hideGenerateLoading(loadingObj, true, version);
+            window.showToast?.('Quote Card berhasil dibuat!', 'success');
+            return;
+        }
+        
+        const inputs = document.querySelectorAll(`#paramForm${prefix} input, #paramForm${prefix} textarea`);
+        let params = {};
+        inputs.forEach(inp => { if (inp.value.trim()) params[inp.name] = encodeURIComponent(inp.value.trim()); });
+        
+        const apiUrl = `${activeFormat.baseUrl}${activeFormat.endpoint}?${Object.entries(params).map(([k, v]) => `${k}=${v}`).join('&')}`;
+        const response = await fetchWithRetry(apiUrl, { method: 'GET' });
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        
+        resultDiv.innerHTML = `<div class="result-content"><img src="${imageUrl}" loading="lazy" style="max-width:100%; border-radius:1rem;"/><div style="margin-top:20px;"><button class="download-btn" id="downloadImageBtn${prefix}"><i class="fas fa-download"></i> Download</button></div></div>`;
+        const downloadBtn = document.getElementById(`downloadImageBtn${prefix}`);
+        if (downloadBtn) downloadBtn.onclick = () => window.downloadImage?.(imageUrl, `${activeFormat.id}_mockup_${Date.now()}.png`);
+        
+        hideGenerateLoading(loadingObj, true, version);
+        window.showToast?.('Mockup berhasil dibuat!', 'success');
+    } catch (err) {
+        resultDiv.innerHTML = `<div class="result-placeholder"><i class="fas fa-times-circle"></i><p>❌ Gagal: ${err.message}</p></div>`;
+        hideGenerateLoading(loadingObj, false, version);
+        window.showToast?.(err.message, 'error');
+    }
 }
 
-// Initialize all
-document.addEventListener('DOMContentLoaded', () => {
-    initNavigation();
-    initInfoPages();
-    initSSWeb();
-    initUploader();
-    initSplashScreen();
+// ========== SSWEB FUNCTIONS ==========
+async function generateSSWeb() {
+    const url = document.getElementById('sswebUrl')?.value;
+    const device = document.getElementById('sswebDevice')?.value;
+    const fullPage = document.getElementById('sswebFullPage')?.value;
+    const scale = document.getElementById('sswebScale')?.value;
     
-    // Set default active page
-    const defaultPage = document.querySelector('.nav-link.active')?.getAttribute('data-page') || 'home';
-    if (defaultPage === 'home') {
-        renderFormatGrid('v1');
+    if (!url || !device || !fullPage || !scale) {
+        window.showToast?.('Lengkapi semua field', 'error');
+        return;
     }
     
-    // Keyboard shortcut Ctrl+K to focus search
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            const activePage = document.querySelector('.page-container.active-page')?.id;
-            if (activePage === 'homePage') {
-                const activeTab = document.querySelector('.mockup-tab.active-tab')?.id;
-                const searchInput = activeTab === 'mockupV1' ? document.getElementById('searchInputV1') : document.getElementById('searchInputV2');
-                if (searchInput) {
-                    searchInput.focus();
-                    showToast('Fokus ke pencarian mockup', 'info');
-                }
-            }
+    const resultDiv = document.getElementById('sswebResultArea');
+    const generateBtn = document.getElementById('sswebGenerateBtn');
+    const loadingDiv = document.getElementById('sswebLoading');
+    const loadingFill = document.getElementById('sswebProgressFill');
+    const loadingPercent = document.getElementById('sswebProgressPercent');
+    
+    generateBtn.classList.add('hidden');
+    loadingDiv.classList.remove('hidden');
+    
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        if (progress < 90) {
+            progress += Math.random() * 15;
+            if (progress > 90) progress = 90;
+            loadingFill.style.width = progress + '%';
+            loadingPercent.textContent = Math.floor(progress);
         }
-    });
+    }, 200);
+    
+    const fullPageValue = fullPage === 'penuh' ? 'true' : 'false';
+    const scaleValue = scale;
+    const endpoints = [`https://api.zenzxz.my.id/tools/ssweb?url=${encodeURIComponent(url)}&device=${device}&full_page=${fullPageValue}&scale=${scaleValue}`];
+    
+    let imageUrl = null;
+    for (const endpoint of endpoints) {
+        try {
+            const response = await fetch(endpoint);
+            const blob = await response.blob();
+            imageUrl = URL.createObjectURL(blob);
+            break;
+        } catch (err) { console.error(err); }
+    }
+    
+    clearInterval(progressInterval);
+    
+    if (!imageUrl) {
+        resultDiv.innerHTML = `<div class="result-placeholder"><i class="fas fa-times-circle"></i><p>Gagal mengambil screenshot</p></div>`;
+        loadingDiv.classList.add('hidden');
+        generateBtn.classList.remove('hidden');
+        return;
+    }
+    
+    loadingFill.style.width = '100%';
+    loadingPercent.textContent = '100';
+    setTimeout(() => {
+        resultDiv.innerHTML = `<div class="result-content"><img src="${imageUrl}" loading="lazy" style="max-width:100%; border-radius:1rem;"/><div style="margin-top:20px;"><button class="download-btn" id="sswebDownloadBtn"><i class="fas fa-download"></i> Download</button></div></div>`;
+        const downloadBtn = document.getElementById('sswebDownloadBtn');
+        if (downloadBtn) downloadBtn.onclick = () => window.downloadImage?.(imageUrl, `screenshot_${Date.now()}.png`);
+        loadingDiv.classList.add('hidden');
+        generateBtn.classList.remove('hidden');
+    }, 500);
+    window.showToast?.('Screenshot berhasil!', 'success');
+}
+
+// ========== INFO & BERITA FUNCTIONS ==========
+let currentBeritaSource = 'cnbc', currentGempaTab = 'auto', currentChannel = 'sctv';
+const beritaSources = { cnbc: 'https://api.siputzx.my.id/api/berita/cnbcindonesia', liputan6: 'https://api.siputzx.my.id/api/berita/liputan6', tribun: 'https://api.siputzx.my.id/api/berita/tribunnews', sindonews: 'https://api.siputzx.my.id/api/berita/sindonews', kompas: 'https://api.siputzx.my.id/api/berita/kompas', merdeka: 'https://api.siputzx.my.id/api/berita/merdeka', cnn: 'https://api.siputzx.my.id/api/berita/cnn', antara: 'https://api.siputzx.my.id/api/berita/antara' };
+
+function initInfoTabs() {
+    const tabBtns = document.querySelectorAll('.info-tab-btn');
+    const sections = { berita: document.getElementById('infoBerita'), gempa: document.getElementById('infoGempa'), cuaca: document.getElementById('infoCuaca'), jadwaltv: document.getElementById('infoJadwalTV') };
+    tabBtns.forEach(btn => btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        Object.values(sections).forEach(s => s?.classList.remove('active-info'));
+        if (sections[btn.dataset.info]) sections[btn.dataset.info].classList.add('active-info');
+        if (btn.dataset.info === 'gempa') loadGempaData();
+        if (btn.dataset.info === 'jadwaltv') loadJadwalTV(currentChannel);
+    }));
+}
+
+function initBeritaSources() {
+    document.querySelectorAll('.source-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentBeritaSource = btn.dataset.source;
+        loadBerita(currentBeritaSource);
+    }));
+}
+
+async function loadBerita(source) {
+    const container = document.getElementById('beritaContent');
+    container.innerHTML = '<div class="loading-info">Memuat berita...</div>';
+    try {
+        const response = await fetch(beritaSources[source]);
+        const data = await response.json();
+        if (data.status && data.data) {
+            container.innerHTML = data.data.slice(0, 20).map(a => `<div class="berita-item"><div class="berita-title"><a href="${a.link}" target="_blank">${a.title}</a></div><div class="berita-meta">${a.time || 'Baru saja'}</div></div>`).join('');
+        }
+    } catch (err) { container.innerHTML = '<div class="loading-info">Gagal memuat berita</div>'; }
+}
+
+function initGempaTabs() {
+    document.querySelectorAll('.gempa-subtab').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.gempa-subtab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentGempaTab = btn.dataset.gempa;
+        loadGempaData();
+    }));
+}
+
+async function loadGempaData() {
+    const container = document.getElementById('gempaContent');
+    container.innerHTML = '<div class="loading-info">Memuat data gempa...</div>';
+    try {
+        const response = await fetch('https://api.siputzx.my.id/api/info/bmkg');
+        const data = await response.json();
+        if (data.status) {
+            let gempaList = currentGempaTab === 'auto' ? (data.data.auto?.Infogempa?.gempa ? [data.data.auto.Infogempa.gempa] : []) : (data.data.dirasakan?.Infogempa?.gempa || []);
+            container.innerHTML = gempaList.map(g => `<div class="gempa-item"><div class="gempa-lokasi">${g.Wilayah}</div><div class="gempa-magnitude">Magnitude: ${g.Magnitude}</div></div>`).join('');
+        }
+    } catch (err) { container.innerHTML = '<div class="loading-info">Gagal memuat gempa</div>'; }
+}
+
+async function loadCuaca(city) {
+    const container = document.getElementById('cuacaContent');
+    if (!city.trim()) return;
+    container.innerHTML = '<div class="loading-info">Memuat cuaca...</div>';
+    try {
+        const response = await fetch(`https://api.siputzx.my.id/api/info/cuaca?q=${encodeURIComponent(city)}`);
+        const data = await response.json();
+        if (data.status && data.data?.weather?.[0]?.cuaca?.[0]?.[0]) {
+            const w = data.data.weather[0].cuaca[0][0];
+            container.innerHTML = `<div class="cuaca-item"><h3>${city}</h3><div class="cuaca-temp">${w.t}°C</div><div>${w.weather_desc}</div></div>`;
+        }
+    } catch (err) { container.innerHTML = '<div class="loading-info">Gagal memuat cuaca</div>'; }
+}
+
+function initTVChannels() {
+    document.querySelectorAll('.channel-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentChannel = btn.dataset.channel;
+        loadJadwalTV(currentChannel);
+    }));
+}
+
+async function loadJadwalTV(channel) {
+    const container = document.getElementById('jadwaltvContent');
+    container.innerHTML = '<div class="loading-info">Memuat jadwal TV...</div>';
+    try {
+        const response = await fetch(`https://api.siputzx.my.id/api/info/jadwaltv?channel=${channel}`);
+        const data = await response.json();
+        if (data.status && data.data) {
+            container.innerHTML = data.data.map(s => `<div class="tv-item"><div class="tv-jam">${s.jam}</div><div class="tv-acara">${s.acara}</div></div>`).join('');
+        }
+    } catch (err) { container.innerHTML = '<div class="loading-info">Gagal memuat jadwal TV</div>'; }
+}
+
+function initInfoPage() {
+    initInfoTabs();
+    initBeritaSources();
+    initGempaTabs();
+    initTVChannels();
+    loadBerita('cnbc');
+    document.getElementById('searchCuacaBtn')?.addEventListener('click', () => loadCuaca(document.getElementById('cuacaCity').value));
+}
+
+// ========== NAVIGATION ==========
+function initNavigation() {
+    const links = document.querySelectorAll('.nav-link');
+    const pages = { home: document.getElementById('homePage'), ssweb: document.getElementById('sswebPage'), uploader: document.getElementById('uploaderPage'), info: document.getElementById('infoPage'), howto: document.getElementById('howtoPage'), guide: document.getElementById('guidePage'), docs: document.getElementById('docsPage') };
+    
+    function switchPage(pageId) {
+        Object.values(pages).forEach(p => p?.classList.remove('active-page'));
+        if (pages[pageId]) pages[pageId].classList.add('active-page');
+        links.forEach(l => l.classList.remove('active'));
+        document.querySelector(`.nav-link[data-page="${pageId}"]`)?.classList.add('active');
+        window.scrollTo({ top: 0 });
+        if (pageId === 'info') loadBerita(currentBeritaSource);
+    }
+    
+    links.forEach(l => l.addEventListener('click', (e) => { e.preventDefault(); switchPage(l.dataset.page); document.getElementById('navMenu')?.classList.remove('active'); }));
+    document.getElementById('navToggle')?.addEventListener('click', () => document.getElementById('navMenu')?.classList.toggle('active'));
+    switchPage('home');
+}
+
+function switchMockupTab(version) {
+    currentVersion = version;
+    document.getElementById('tabV1Btn').classList.toggle('active', version === 'v1');
+    document.getElementById('tabV2Btn').classList.toggle('active', version === 'v2');
+    document.getElementById('mockupV1').classList.toggle('active-tab', version === 'v1');
+    document.getElementById('mockupV2').classList.toggle('active-tab', version === 'v2');
+    
+    AppStoreState.selectedCategory = 'All';
+    AppStoreState.searchQuery = '';
+    AppStoreState.selectedFormat = null;
+    AppStoreState.viewMode = 'grid';
+    
+    const searchInput = document.getElementById(`searchInput${version.toUpperCase()}`);
+    if (searchInput) searchInput.value = '';
+    
+    if (version === 'v1') renderFormatGridV1();
+    else renderFormatGridV2();
+}
+
+// ========== INIT ALL ==========
+function initAll() {
+    renderFormatGridV1();
+    renderParamFormV1();
+    renderFormatGridV2();
+    renderParamFormV2();
+    initNavigation();
+    initInfoPage();
+    
+    document.getElementById('sswebGenerateBtn')?.addEventListener('click', generateSSWeb);
+    document.getElementById('imgUploadBtn')?.addEventListener('click', uploadImg);
+    document.getElementById('vidUploadBtn')?.addEventListener('click', uploadVid);
+    document.getElementById('audUploadBtn')?.addEventListener('click', uploadAud);
+    document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('click', () => copyUrl(btn.dataset.copy)));
+}
+
+// Keyboard shortcut
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const activeSearch = document.getElementById(`searchInput${currentVersion.toUpperCase()}`);
+        if (activeSearch) { activeSearch.focus(); activeSearch.select(); }
+    }
+});
+
+// Start
+document.addEventListener('DOMContentLoaded', () => {
+    checkVerification();
+    document.getElementById('followBtn')?.addEventListener('click', followSaluran);
+    document.getElementById('shareBtn')?.addEventListener('click', shareWA);
+    document.getElementById('tabV1Btn')?.addEventListener('click', () => switchMockupTab('v1'));
+    document.getElementById('tabV2Btn')?.addEventListener('click', () => switchMockupTab('v2'));
 });

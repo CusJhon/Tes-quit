@@ -103,9 +103,9 @@ if (!document.querySelector('#toast-styles')) {
             background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 50px; padding: 12px 24px; display: flex; align-items: center; gap: 12px; 
             color: white; font-size: 0.9rem; font-weight: 500; z-index: 10000; transition: transform 0.3s ease; 
-            overflow: hidden; max-width: 90%; white-space: nowrap;
+            overflow: hidden; max-width: 90%;
         } 
-        @media (max-width: 768px) { .toast-notification { white-space: normal; max-width: 90%; text-align: center; } }
+        @media (max-width: 768px) { .toast-notification { max-width: 90%; text-align: center; white-space: normal; } }
         .toast-notification.show { transform: translateX(-50%) translateY(0); } 
         .toast-notification i { font-size: 1.2rem; } 
         .toast-success i { color: #10b981; } .toast-error i { color: #ef4444; } .toast-info i { color: #3b82f6; } 
