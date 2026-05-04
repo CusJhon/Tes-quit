@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, '..')));
 
 // Rate limiting untuk keamanan
 const limiter = rateLimit({
-    windowMs: 60 * 1000, // 1 menit
-    max: 30, // maksimal 30 request per menit
+    windowMs: 60 * 1000,
+    max: 30,
     message: { error: 'Terlalu banyak request, coba lagi nanti.' },
     skipSuccessfulRequests: true
 });
@@ -27,15 +27,13 @@ app.use('/api/', limiter);
 const storage = multer.memoryStorage();
 const upload = multer({ 
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+    limits: { fileSize: 10 * 1024 * 1024 }
 });
 
-// API Keys (simpan di environment variable untuk production)
+// API Keys
 const IMGBB_API_KEY = process.env.IMGBB_API_KEY || 'fc04ecb5446e5645ce99bcdab7ba7b86';
 const CLOUD_NAME = 'ddbqhpuoz';
 const UPLOAD_PRESET = 'ml_default';
-
-// ==================== API ENDPOINTS ====================
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -60,7 +58,6 @@ app.post('/api/upload/img', upload.single('image'), async (req, res) => {
         
         if (response.data.success) {
             let url = response.data.data.url;
-            // Fix i.ibb.co URL issue
             if (url.includes('i.ibb.co') && !url.includes('i.ibb.co.com')) {
                 url = url.replace('i.ibb.co', 'i.ibb.co.com');
             }
@@ -241,7 +238,7 @@ app.get('/api/jadwaltv', async (req, res) => {
     }
 });
 
-// Serve index.html for all other routes (SPA support)
+// Serve index.html for all other routes
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
